@@ -1,0 +1,11 @@
+.DS_Store
+nbproject
+
+# IGNORE LIST MAGENTO #
+#######################
+/var/*
+/app/etc/local.xml
+/downloader/.cache/
+/media/catalog/product/cache/*
+/media/tmp/*
+/media/catalog/*
