@@ -27,15 +27,14 @@
                 </args>
             </koowa>
         </routers>
+        <layout>
+            <updates>
+                <koowa>
+                    <file>koowa.xml</file>
+                </koowa>
+            </updates>
+        </layout>
     </frontend>
-
-    <layout>
-        <updates>
-            <koowa>
-                <file>koowa.xml</file>
-            </koowa>
-        </updates>
-    </layout>
 
     <global>
         <models>

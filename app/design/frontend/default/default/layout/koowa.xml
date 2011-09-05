@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Koowa
+ *
+ * @package		Crossinghippos_Koowa
+ * @author		Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
+ * @copyright   Copyright (c) 2011 Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
+ * @license		Open Software License
+ */
+-->
+<layout version="0.1.0">
+
+    <koowa_index_index>
+        <reference name="content">
+            <block type="core/template" name="koowa" template="koowa/koowa.phtml" />
+        </reference>
+    </koowa_index_index>
+
+</layout>
