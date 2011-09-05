@@ -13,7 +13,10 @@
 
     <koowa_index_index>
         <reference name="content">
-            <block type="core/template" name="koowa" template="koowa/koowa.phtml" />
+            <block type="koowa/koowa" name="koowa" template="koowa/koowa.phtml">
+                <action method="setIdentifier"><string>site::com.content.view.articles</string></action>
+                <action method="setState"><type>limit</type><value>5</value></action>
+            </block>
         </reference>
     </koowa_index_index>
 
