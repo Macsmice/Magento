@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Koowa
+ *
+ * @package		Crossinghippos_Koowa
+ * @author		Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
+ * @copyright   Copyright (c) 2011 Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
+ * @license		Open Software License
+ */
+-->
+<config>
+
+    <modules>
+        <Crossinghippos_Koowa>
+            <version>0.1</version>
+        </Crossinghippos_Koowa>
+    </modules>
+
+    <frontend>
+        <routers>
+            <koowa>
+                <use>standard</use>
+                <args>
+                    <module>Crossinghippos_Koowa</module>
+                    <frontName>koowa</frontName>
+                </args>
+            </koowa>
+        </routers>
+    </frontend>
+
+    <layout>
+        <updates>
+            <koowa>
+                <file>koowa.xml</file>
+            </koowa>
+        </updates>
+    </layout>
+
+    <global>
+        <models>
+            <koowa>
+                <class>Crossinghippos_Koowa_model</class>
+            </koowa>
+        </models>
+        <resources>
+
+        </resources>
+        <blocks>
+            <koowa>
+                <class>Crossinghippos_Koowa_Block</class>
+            </koowa>
+        </blocks>
+        <helpers>
+            <koowa>
+                <class>Crossinghippos_Koowa_Helper</class>
+            </koowa>
+        </helpers>
+    </global>
+
+</config>
