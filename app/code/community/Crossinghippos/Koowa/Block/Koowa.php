@@ -43,7 +43,7 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         define('_JEXEC',1); //Quick Fool Joomla loaded
 
 
-        define('JPATH_ROOT','/Users/babsgosgens/Sites/magento1.6/nstrunk');
+        define('JPATH_ROOT','/Users/babsgosgens/Sites/magento1.6/ns');
         define('JPATH_LIBRARIES',JPATH_ROOT.'/libraries');
         define('JPATH_BASE',JPATH_ROOT);
         define('JPATH_SITE',JPATH_ROOT);
