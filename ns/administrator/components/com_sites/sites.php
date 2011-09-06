@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: sites.php 936 2011-04-18 13:11:00Z johanjanssens $
+ * @version     $Id: sites.php 2636 2011-09-01 03:05:36Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Sites
@@ -18,4 +18,4 @@
  * @subpackage  Sites   
  */
 
-echo KFactory::get('admin::com.sites.dispatcher')->dispatch();
+echo KFactory::get('com://admin/sites.dispatcher')->dispatch();

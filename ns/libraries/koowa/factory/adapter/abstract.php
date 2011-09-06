@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: abstract.php 2725 2010-10-28 01:54:08Z johanjanssens $
+ * @version 	$Id: abstract.php 3828 2011-09-01 02:22:28Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage 	Adapter
@@ -18,12 +18,12 @@
  */
 abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapterInterface
 {
-	/**
-	 * The command priority
-	 *
-	 * @var KIdentifierInterface
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
 	 */
-	protected $_priority;
+	protected $_type = '';
 	
 	/**
 	 * Constructor.
@@ -36,47 +36,15 @@ abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapte
 		if(!isset($config)) $config = new KConfig();
 		
 		parent::__construct($config);
-		
-		$this->_priority = $config->priority;
 	}
 	
 	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @return void
-     */
-	protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-			'priority'   => KCommand::PRIORITY_NORMAL,
-	  	));
-
-    	parent::_initialize($config);
-   	}
-	
-	/**
-	 * Command handler
+	 * Get the type
 	 *
-	 * @param string  The object identifier
-	 * @param object  The command context
-	 * @return object|false  Return object on success, returns FALSE on failure
+	 * @return string	Returns the type
 	 */
-	final public function execute($identifier, KCommandContext $context)
+	public function getType()
 	{
-		$result = $this->instantiate($identifier, $context->config);
-		return $result;
+		return $this->_type;
 	}
-	
-	/**
-	 * Get the priority of a behavior
-	 *
-	 * @return	integer The command priority
-	 */
-  	public function getPriority()
-  	{
-  		return $this->_priority;
-  	}
 }

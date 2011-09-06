@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: behavior.php 3788 2011-08-23 22:20:29Z johanjanssens $
+ * @version		$Id: behavior.php 3845 2011-09-01 02:33:35Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
@@ -155,7 +155,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			self::$_loaded['overlay'] = true;
 		}
 
-		$url = KFactory::tmp('lib.koowa.http.url', array('url' => $config->url));
+		$url = KFactory::get('koowa:http.url', array('url' => $config->url));
 		$url->query['tmpl'] = '';
 
 		$attribs = KHelperArray::toString($config->attribs);
@@ -247,5 +247,75 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		</script>";
 
 		return $html;
+	}
+	
+	/**
+	 * Render a input field that has autocomplete functionality
+	 *
+	 * @return string	The html output
+	 */
+	public function autocomplete($config = array())
+	{
+		$config = new KConfig($config);
+		
+		$config->append(array(
+			'value' => null,
+			'name'	=> null,
+			'model'	=> null,
+			'label'	=> false,
+			'placeholder' => false,
+			'text'	=> ''
+		))->append(array(
+		    'valueField' => $config->name.'-value'
+		));
+		
+		
+		if(!is_string($config->model)) 
+		{
+		    $data = array();
+			foreach($config->model as $item)
+			{
+				$data[] = array('value' => $item->id, 'text' => $item->text);
+				if($item->id == $config->value) { 
+				    $config->text = $item->text;
+				}
+			}
+		    
+		} 
+		else $data = str_replace('&amp;', '&', $config->model);
+		
+		$html = '';
+		
+		// Load the necessary files if they haven't yet been loaded
+		if(!isset(self::$_loaded['autocomplete']))
+		{
+		    $html .= '<script src="media://lib_koowa/js/autocomplete.js" />';
+		    $html .= '<style src="media://lib_koowa/css/autocomplete.css" />';
+		}
+		
+		$html .= "
+		<script>
+			window.addEvent('domready', function(){				
+				var data = ".json_encode($data).";
+				
+				new Meio.Autocomplete.Select($('".$config->name."'), data, {
+					valueField: '".$config->valueField."',
+					filter: {
+						type: 'contains',
+						path: 'username.name'
+					},
+					urlOptions: {
+						queryVarName: 'search'
+					},
+					requestOptions: {
+						method: 'get'
+					}
+				});
+			});
+		</script>";
+	    $html .= '<input type="text" id="'.$config->name.'" placeholder="'. $config->placeholder.'" class="inputbox value" value="'.$config->text.'" size="60" />';
+	    $html .= '<input type="hidden" name="'.$config->name.'" id="'.$config->valueField.'" value="'. $config->value.'" />';
+
+	    return $html;
 	}
 }

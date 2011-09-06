@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: folder.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: folder.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -18,10 +18,22 @@
  * @subpackage  Files
  */
 
-jimport('joomla.filesystem.folder');
-
 class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 {
+	/**
+	 * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
+	 *
+	 * @var string|object
+	 */
+	protected $_children = null;
+
+	/**
+	 * Node object or identifier (com://APP/COMPONENT.rowset.NAME)
+	 *
+	 * @var string|object
+	 */
+	protected $_parent   = null;
+
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
@@ -30,12 +42,12 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 		if ($config->validator !== false)
 		{
-        	if ($config->validator === true) {
-        		$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
-        	}
+			if ($config->validator === true) {
+				$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
+			}
 
-			$this->getCommandChain()->enqueue(KFactory::tmp($config->validator));
-        }
+			$this->getCommandChain()->enqueue(KFactory::get($config->validator));
+		}
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
 	}
@@ -48,16 +60,16 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 	}
 
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'dispatch_events'   => false,
-            'enable_callbacks'  => true,
-        	'validator' 		=> true
-        ));
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
+			'dispatch_events'   => false,
+			'enable_callbacks'  => true,
+			'validator' 		=> true
+		));
 
-        parent::_initialize($config);
-    }
+		parent::_initialize($config);
+	}
 
 	public function save()
 	{
@@ -66,12 +78,12 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 		if ($this->getCommandChain()->run('before.save', $context) !== false) {
 
-        	if ($this->isNew()) {
-				$context->result = JFolder::create($this->fullpath);
+			if ($this->isNew()) {
+				$context->result = mkdir($this->fullpath, 0755, true);
 			}
 
 			$this->getCommandChain()->run('after.save', $context);
-        }
+		}
 
 		if ($context->result === false) {
 			$this->setStatus(KDatabase::STATUS_FAILED);
@@ -87,10 +99,10 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		$context->result = false;
 
 		if ($this->getCommandChain()->run('before.delete', $context) !== false) {
-        	$context->result = !$this->isNew() ? JFolder::delete($this->fullpath) : false;
+			$context->result = !$this->isNew() ? $this->_deleteFolder($this->fullpath) : false;
 
 			$this->getCommandChain()->run('after.delete', $context);
-        }
+		}
 
 		if ($context->result === false) {
 			$this->setStatus(KDatabase::STATUS_FAILED);
@@ -100,22 +112,44 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		return $context->result;
 	}
 
+	/**
+	 *
+	 * Method to recursively delete a folder
+	 * @param string $path
+	 */
+	protected function _deleteFolder($path)
+	{
+		if (!file_exists($path)) {
+			return true; // already gone?
+		}
+		$iter = new RecursiveDirectoryIterator($path);
+		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) {
+			if ($f->isDir()) {
+				rmdir($f->getPathname());
+			} else {
+				unlink($f->getPathname());
+			}
+		}
+
+		return rmdir($path);
+	}
+
 	public function isNew()
 	{
 		return $this->path ? !is_dir($this->fullpath) : true;
 	}
 
-    public function toArray()
-    {
-        $data = parent::toArray();
+	public function toArray()
+	{
+		$data = parent::toArray();
 
 		unset($data['basepath']);
 
 		$data['type'] = 'folder';
 		$data['name'] = $this->name;
 
-        return $data;
-    }
+		return $data;
+	}
 
 	public function __get($column)
 	{
@@ -132,7 +166,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 
 		if ($column == 'children' && !isset($this->_data['children'])) {
-			$this->_data['children'] = KFactory::tmp('admin::com.files.database.rowset.folders');
+			$this->_data['children'] = KFactory::get('com://admin/files.database.rowset.folders');
 		}
 
 		return parent::__get($column);
@@ -148,16 +182,16 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 	}
 
-    public function getData($modified = false)
-    {
-        $result = parent::getData($modified);
+	public function getData($modified = false)
+	{
+		$result = parent::getData($modified);
 
-        if (isset($result['children']) && $result['children'] instanceof KDatabaseRowsetInterface) {
-        	$result['children'] = $result['children']->getData();
-        }
+		if (isset($result['children']) && $result['children'] instanceof KDatabaseRowsetInterface) {
+			$result['children'] = $result['children']->getData();
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
 	public function getFullpath()
 	{
@@ -174,4 +208,66 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 	{
 		return $this->basepath;
 	}
+
+	public function insertChild(KDatabaseRowInterface $node)
+	{
+		//Track the parent
+		$node->setParent($this);
+
+		//Insert the row in the rowset
+		$this->getChildren()->insert($node);
+
+		return $this;
+	}
+
+	public function hasChildren()
+	{
+		return (boolean) count($this->_children);
+	}
+
+	/**
+	 * Get the children rowset
+	 *
+	 * @return	object
+	 */
+	public function getChildren()
+	{
+		if(!($this->_children instanceof KDatabaseRowsetInterface))
+		{
+			$identifier         = clone $this->_identifier;
+			$identifier->path   = array('database', 'rowset');
+			$identifier->name   = KInflector::pluralize($this->_identifier->name);
+
+			//The row default options
+			$options  = array(
+				'identity_column' => $this->getIdentityColumn()
+			);
+
+			$this->_children = KFactory::get($identifier, $options);
+		}
+
+		return $this->_children;
+	}
+
+	/**
+	 * Get the parent node
+	 *
+	 * @return	object
+	 */
+	public function getParent()
+	{
+		return $this->_parent;
+	}
+
+	/**
+	 * Set the parent node
+	 *
+	 * @return ComArticlesDatabaseRowNode
+	 */
+	public function setParent( $node )
+	{
+		$this->_parent = $node;
+		return $this;
+	}
+
 }

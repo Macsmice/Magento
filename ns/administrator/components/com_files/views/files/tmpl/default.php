@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: default.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: default.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -10,63 +10,46 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= @helper('behavior.mootools'); ?>
-<?= @helper('behavior.keepalive'); ?>
-<?= @helper('behavior.tooltip'); ?>
+<?= @template('initialize');?>
 
-<?= @helper('behavior.modal'); ?>
-
-<style src="media://system/css/mootree.css" />
-<style src="media://com_files/css/files.css" />
-<style src="media://com_files/css/files-layout-icons.css" />
-
-<script src="media://com_files/js/delegation.js" />
-<script src="media://com_files/js/ejs/ejs.js" />
-
-<script src="media://lib_koowa/js/koowa.js" />
-<script src="media://system/js/mootree.js" />
-
-<script src="media://system/js/swiff-uploader.js" />
-<script src="media://system/js/uploader.js" />
-
-<script src="media://com_files/js/files.filesize.js" />
-<script src="media://com_files/js/files.template.js" />
-<script src="media://com_files/js/files.container.js" />
-<script src="media://com_files/js/files.tree.js" />
-<script src="media://com_files/js/files.row.js" />
-<script src="media://com_files/js/files.uploader.js" />
 <script src="media://com_files/js/files.app.js" />
 
 <script>
-
-Files.sitebase = '<?= ltrim(JURI::root(true), '/'); ?>';
+Files.sitebase = '<?= trim(JURI::root(), '/'); ?>';
 Files.path = '<?= $path; ?>';
-Files.baseurl = '<?= ltrim(JURI::root(true).'/'.$path, '/'); ?>';
-Files.identifier = '<?= $state->identifier->identifier; ?>';
+Files.baseurl = Files.sitebase + '/' + Files.path;
 
+Files.container = '<?= $state->container->id; ?>';
 Files.token = '<?= JUtility::getToken();?>';
+
+Files.blank_image = 'media://com_files/images/blank.png';
+
+Files.state = {
+	limit: 0,
+	offset: 0,
+	setDefaults: function() {
+		this.limit = <?= $state->limit; ?>;
+		this.offset = <?= $state->offset; ?>;
+	}
+};
+Files.state.setDefaults();
 
 window.addEvent('domready', function() {
 	Files.app = new Files.App({
 		tree: {
-			div: 'files-tree',
-			adopt: 'files-tree-html',
 			theme: 'media://com_files/images/mootree.png'
-		}
+		},
+		types: <?= json_encode($state->types); ?>
 	});
 
-	document.id('files-create-folder').addEvent('click', function(e) {
-		e.stop();
-		var request = new Request.JSON({
-			url: 'index.php?option=com_files&view=folder&format=json&identifier='+Files.identifier,
-			method: 'post',
-			data: {
-				'_token': Files.token,
-				'parent': Files.app.getPath(),
-				'path': document.id('foldername').getValue()
-			},
-			onSuccess: function(response, responseText) {
-				document.id('foldername').set('value', '');
+	$('files-new-folder-input').addEvent('keydown', function(e){
+		if (e.key == 'enter' && this.get('value').length > 0) {
+			e.stop();
+			
+			var element = this;
+			var folder = new Files.Folder({path: this.get('value')});
+			folder.add(function(response, responseText) {
+				element.set('value', '');
 
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
@@ -79,43 +62,48 @@ window.addEvent('domready', function() {
 						url: '#'+row.path
 					}
 				});
-			},
-			onFailure: function(xhr) {
-				resp = JSON.decode(xhr.responseText, true);
-				error = resp && resp.error ? resp.error : 'An error occurred during request';
-				alert(error);
-			}
-		});
-		request.send();
+			});
+		};
 	});
 
 });
 </script>
 
-<?= @template('templates_icons'); ?>
-<?= @template('templates_details'); ?>
 
-<div id="sidebar">
-	<div id="files-tree"></div>
-	<?= @template('folders');?>
-</div>
-<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
-        <div class="path">
-			<span id="path-active"></span>/
-			<input class="inputbox" type="text" id="foldername" name="foldername"  />
-			<button type="submit" id="files-create-folder"><?= @text('Create Folder'); ?></button>
+<div id="files-app" class="-koowa-box -koowa-box-flex">
+	<?= @template('templates_icons'); ?>
+	<?= @template('templates_details'); ?>
+	
+	<div id="sidebar">
+		<div id="files-tree"></div>
+		<?= @template('folders');?>
+	</div>
+	
+	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
+	    <div class="path">
+		    <span id="files-pathway"></span>
+		    
+		    <span id="files-new-folder">
+			<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>"  />
+			</span>
+			
+			<button id="files-batch-delete" style="float: right; margin-left: 30px;" disabled="disabled"><?= @text('Delete'); ?></button>
+			
 			<select id="files-layout-switcher" style="float: right">
 				<option value="icons"><?= @text('Icons'); ?></option>
 				<option value="details"><?= @text('Details'); ?></option>
 			</select>
 		</div>
+		
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-container">
-
+	
 			</div>
 		</div>
-
-		<? if (KFactory::get('lib.joomla.user')->authorize('com_files', 'upload')): ?>
-			<?= @template('uploader');?>
-		<? endif; ?>
+	
+		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
+	
+		<?= @template('uploader');?>
+	</div>
+	<div style="clear: both"></div>
 </div>

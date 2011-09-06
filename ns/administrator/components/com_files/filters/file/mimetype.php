@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mimetype.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: mimetype.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -33,7 +33,7 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 
 	protected function _initialize(KConfig $config)
 	{
-		$component_config = KFactory::get('admin::com.files.database.row.config');
+		$component_config = KFactory::get('com://admin/files.database.row.config');
 
 		$allowed_mimetypes = array_map('strtolower', $component_config->upload_mime);
 		$illegal_mimetypes = array_map('strtolower', $component_config->upload_mime_illegal);
@@ -67,7 +67,7 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 			}
 			else 
 			{
-				$mime = KFactory::tmp('admin::com.files.database.row.file')->setData(array('path' => $row->file))->mimetype;
+				$mime = KFactory::get('com://admin/files.database.row.file')->setData(array('path' => $row->file))->mimetype;
 
 				if ($config->check_mime && $mime) 
 				{

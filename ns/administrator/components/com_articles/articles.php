@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: articles.php 1650 2011-06-08 13:32:58Z johanjanssens $
+ * @version     $Id: articles.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -18,8 +18,8 @@
  * @subpackage  Articles
  */
 
-/*if (!KFactory::get('lib.joomla.user')->authorize( 'com_content', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+/*if (!KFactory::get('joomla:user')->authorize( 'com_content', 'manage' )) {
+	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
-echo KFactory::get('admin::com.articles.dispatcher')->dispatch();
+echo KFactory::get('com://admin/articles.dispatcher')->dispatch();

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: mod_search.xml 2372 2011-07-22 12:23:45Z johanjanssens $ -->
 <install type="module" version="1.5.0" method="upgrade">
 	<name>Search</name>
 	<author>Nooku Project</author>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: queue.php 3676 2011-07-01 19:07:56Z johanjanssens $
+ * @version		$Id: queue.php 3682 2011-07-11 13:07:26Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Object
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.

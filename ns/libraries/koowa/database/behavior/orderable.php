@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: orderable.php 3380 2011-05-26 22:32:35Z johanjanssens $
+ * @version 	$Id: orderable.php 3818 2011-09-01 02:14:22Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Database
  * @subpackage 	Behavior
@@ -112,7 +112,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      * record insertion.
      *
      * @param	integer 	Order at which to start resetting.
-     * @return      KDatabaseTableAbstract
+     * @return	KDatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
     {

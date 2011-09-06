@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: listbox.php 2050 2011-06-27 03:18:32Z johanjanssens $
+ * @version     $Id: listbox.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -20,6 +20,19 @@
 
 class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
+    public function authors($config = array())
+    {
+        $config = new KConfig($config);
+		$config->append(array(
+			'model'		=> 'articles',
+			'name' 		=> 'created_by',
+			'value'		=> 'created_by_id',
+			'text'		=> 'created_by_name',
+		));
+
+		return parent::_listbox($config);
+    }
+    
     public function sections($config = array())
     {
         $config = new KConfig($config);
@@ -30,7 +43,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'prompt'	=> '- Select -'
         ));
 
-        $list = KFactory::tmp('admin::com.articles.model.sections')
+        $list = KFactory::get('com://admin/articles.model.sections')
             ->set('scope', 'content')
             ->set('sort', 'title')
             ->set('limit', 0)
@@ -67,13 +80,9 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
 
-        if($config->section == '0')
+        if($config->section != '0')
         {
-            $config->selected = 0;
-        }
-        else
-        {
-            $list = KFactory::tmp('admin::com.categories.model.categories')
+            $list = KFactory::get('com://admin/categories.model.categories')
                 ->set('section', $config->section > 0 ? $config->section : 'com_content')
                 ->set('sort', 'title')
                 ->set('limit', 0)
@@ -83,33 +92,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                 $options[] = $this->option(array('text' => $item->title, 'value' => $item->id));
             }
         }
-
-        $config->options = $options;
-
-        return $this->optionlist($config);
-    }
-
-    public function authors($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'name'      => 'created_by',
-            'deselect'  => true,
-            'selected'  => $config->created_by,    
-            'prompt'	=> '- Select -'
-        ));
-
-        $list = KFactory::tmp('admin::com.articles.model.articles')
-            ->set($config)
-            ->getAuthors();
-
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt)));
-        }
-
-        foreach($list as $item) {
-            $options[] = $this->option(array('text' => $item->name, 'value' => $item->id));
-        }
+        else $config->selected = 0;
 
         $config->options = $options;
 

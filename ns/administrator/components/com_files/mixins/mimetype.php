@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mimetype.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: mimetype.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,14 +15,14 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesMixinMimetype extends KMixinAbstract
 {
 	/**
 	 * Adapters to use for mimetype detection
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_adapters = array();
@@ -51,7 +51,7 @@ class ComFilesMixinMimetype extends KMixinAbstract
 	public function getMimetype($path)
 	{
 		$mimetype = false;
-		foreach ($this->_adapters as $i => $adapter) 
+		foreach ($this->_adapters as $i => $adapter)
 		{
 			try {
 				$function = '_detect'.ucfirst($adapter);
@@ -81,7 +81,7 @@ class ComFilesMixinMimetype extends KMixinAbstract
 			throw new ComFilesMixinMimetypeException('Fileinfo extension is not found');
 		}
 
-		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetype/magic');
+		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetypes/magic');
 		$mimetype = $finfo->file($path);
 
 		return $mimetype;
@@ -109,7 +109,7 @@ class ComFilesMixinMimetype extends KMixinAbstract
 			return 'application/x-empty';
 		}
 
-		$mimemagics = KFactory::tmp('admin::com.files.database.rowset.mimemagics')->getData();
+		$mimemagics = KFactory::get('com://admin/files.database.rowset.mimemagics')->getData();
 
 		$fp = @fopen($path, 'rb');
 		foreach ($mimemagics as $mime) {

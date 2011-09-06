@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: file.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: file.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -18,9 +18,6 @@
  * @subpackage  Files
  */
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-
 class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
@@ -34,13 +31,15 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
         if ($config->validator !== false)
         {
         	if ($config->validator === true) {
-        		$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
+        		$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
         	}
 
-			$this->getCommandChain()->enqueue(KFactory::tmp($config->validator));
+			$this->getCommandChain()->enqueue(KFactory::get($config->validator));
         }
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
+		$this->registerCallback(array('after.save'), array($this, 'saveThumbnail'));
+		$this->registerCallback(array('after.delete'), array($this, 'deleteThumbnail'));
 	}
 
     protected function _initialize(KConfig $config)
@@ -63,6 +62,35 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		}
 	}
 
+	public function saveThumbnail(KCommandContext $context = null)
+	{
+		$result = null;
+		if ($this->isImage()) {
+			$thumb = KFactory::get('com://admin/files.model.thumbnails')
+				->source($this)
+				->getItem();
+
+			$result = $thumb->save();
+		}
+
+		return $result;
+	}
+
+	public function deleteThumbnail(KCommandContext $context = null)
+	{
+		$result = null;
+		if ($this->isImage()) {
+			$thumb = KFactory::get('com://admin/files.model.thumbnails')
+				->source($this)
+				->getItem();
+
+			$result = $thumb->delete();
+
+		}
+
+		return $result;
+	}
+
 	public function save()
 	{
 		$context = $this->getCommandContext();
@@ -74,7 +102,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 				$context->result = file_put_contents($this->fullpath, $this->contents);
 			}
 			else if (!empty($this->file)) {
-				$context->result = JFile::upload($this->file, $this->fullpath);
+				$context->result = move_uploaded_file($this->file, $this->fullpath);
 			}
 
 			$this->getCommandChain()->run('after.save', $context);
@@ -96,7 +124,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		if ($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
-        	$context->result = JFile::delete($this->fullpath);
+        	$context->result = unlink($this->fullpath);
 			$this->getCommandChain()->run('after.delete', $context);
         }
 
@@ -116,6 +144,12 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
     public function toArray()
     {
         $data = parent::toArray();
+        
+        unset($data['file']);
+        unset($data['container']);
+        unset($data['_token']);
+        unset($data['option']);
+        unset($data['format']);
 
 		unset($data['basepath']);
 
@@ -151,6 +185,12 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		if ($column == 'size' && !isset($this->_data['size'])) {
 			$this->_data['size'] = $this->getSize();
+		}
+
+		if ($column == 'relative_folder') {
+			$path = $this->fullpath;
+			$result = dirname(str_replace($this->basepath.'/', '', $path));
+			return $result === '.' ? '' : $result;
 		}
 
 		if ($column == 'mimetype' && !isset($this->_data['mimetype'])) {
@@ -207,7 +247,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 	public function getMimeType()
 	{
-		return KFactory::get('admin::com.files.mixin.mimetype')->getMimetype($this->fullpath);
+		return KFactory::get('com://admin/files.mixin.mimetype')->getMimetype($this->fullpath);
 	}
 
 	public function getExtension()
@@ -252,10 +292,16 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 			$default = $path.'/con_info.png';
 		}
 		if (!isset($icons16)) {
-			$icons16 = JFolder::files(JPATH_ROOT.'/'.$path.'/mime-icon-16', '\.(?:png|PNG)$');
+			$icons16 = ComFilesIteratorDirectory::getFiles(array(
+            	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-16',
+				'filter' => array('png')
+            ));
 		}
 		if (!isset($icons32)) {
-			$icons32 = JFolder::files(JPATH_ROOT.'/'.$path.'/mime-icon-32', '\.(?:png|PNG)$');
+			$icons32 = ComFilesIteratorDirectory::getFiles(array(
+            	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-32',
+				'filter' => array('png')
+            ));
 		}
 
 		$icons = array();

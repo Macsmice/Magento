@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: listbox.php 3403 2011-06-01 15:38:28Z johanjanssens $
+ * @version		$Id: listbox.php 3847 2011-09-01 02:34:29Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
@@ -39,33 +39,42 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
  	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'name'		=> '',
-			'state' 	=> null,
-			'attribs'	=> array(),
-			'model'		=> null,
-		    'prompt'    => '- Select -', 
+			'name'		  => '',
+			'filter' 	  => array(),
+			'attribs'	  => array(),
+			'model'		  => KInflector::pluralize($this->getIdentifier()->package),
+		    'prompt'      => '- Select -', 
+		    'unique'	  => true
 		))->append(array(
-			'value'		=> $config->name,
-			'selected'  => $config->{$config->name}
+			'value'		 => $config->name,
+			'selected'   => $config->{$config->name},
+		    'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 			'column'    => $config->value,
-			'deselect'  => true
+			'deselect'  => true,
+		))->append(array(
+		    'sort'	    => $config->text,
 		));
 		
-		$app        = $this->getIdentifier()->application;
-    	$package    = $this->getIdentifier()->package;
-		$identifier = $app.'::com.'.$package.'.model.'.($config->model ? $config->model : KInflector::pluralize($package));
+		$list = KFactory::get($config->identifier)->limit(0)->set($config->filter)->sort($config->sort)->getList();
 		
- 		$list = KFactory::tmp($identifier)->getColumn($config->column);
-		
+		//Get the list of items
+ 	    $items = $list->getColumn($config->value);
+		if($config->unique) {
+		    $items = array_unique($items);
+		}
+
+		//Compose the options array
         $options   = array();
  		if($config->deselect) {
          	$options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 		
- 		foreach($list as $item) {
-			$options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
+ 		foreach($items as $key => $value) 
+ 		{
+ 		    $item      = $list->find($key);
+ 		    $options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
 		}
 		
 		//Add the options to the config object
@@ -73,7 +82,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 
 		return $this->optionlist($config);
  	}
-	
+ 	
 	/**
      * Search the mixin method map and call the method or trigger an error
      * 

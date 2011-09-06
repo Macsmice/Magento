@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: node.php 1715 2011-06-10 22:31:02Z johanjanssens $
+ * @version     $Id: node.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -21,14 +21,14 @@
 class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
 {
     /**
-     * Nodes object or identifier (APP::com.COMPONENT.rowset.NAME)
+     * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
      *
      * @var string|object
      */
     protected $_children = null;
  	
     /**
-     * Node object or identifier (APP::com.COMPONENT.rowset.NAME)
+     * Node object or identifier (com://APP/COMPONENT.rowset.NAME)
      *
      * @var string|object
      */
@@ -95,7 +95,7 @@ class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
                 'identity_column' => $this->getIdentityColumn()
             );
                
-            $this->_children = KFactory::tmp($identifier, $options); 
+            $this->_children = KFactory::get($identifier, $options); 
         }
         
 	    return $this->_children;

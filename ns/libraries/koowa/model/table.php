@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: table.php 3540 2011-06-20 15:00:35Z johanjanssens $
+ * @version		$Id: table.php 3704 2011-07-18 22:44:47Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Model
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -263,31 +263,6 @@ class KModelTable extends KModelAbstract
         }
 
         return $this->_total;
-    }
-
-    /**
-     * Get the list of items based on the distinct column values
-     *
-     * @param string    The column name
-     * @return KDatabaseRowset
-     */
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            if($this->isConnected()) 
-            {
-                $query = $this->getTable()->getDatabase()->getQuery()
-                    ->distinct()
-                    ->group('tbl.'.$this->getTable()->mapColumns($column));
-
-                $this->_buildQueryOrder($query);
-                        
-                $this->_column[$column] = $this->getTable()->select($query);
-            }
-        }
-            
-        return $this->_column[$column];
     }
 
     /**

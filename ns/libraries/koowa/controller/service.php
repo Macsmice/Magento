@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: service.php 3681 2011-07-11 13:02:19Z johanjanssens $
+ * @version		$Id: service.php 3682 2011-07-11 13:07:26Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.

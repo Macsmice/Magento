@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: categories.php 2475 2011-08-13 14:07:45Z gergoerdosi $
+ * @version     $Id: categories.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -39,7 +39,7 @@ class ComArticlesModelCategories extends KModelAbstract
             $folders  = array(); 
             $children = array();
 
-            $categories = KFactory::tmp('admin::com.categories.model.categories')
+            $categories = KFactory::get('com://admin/categories.model.categories')
                 ->published($this->_state->published)
                 ->section('com_content')
                 ->limit(0)
@@ -49,7 +49,7 @@ class ComArticlesModelCategories extends KModelAbstract
 
             foreach($categories as $category)
             {
-                $children[$category->section][] = array(
+                $children[$category->section_id][] = array(
                     'id'	      => $category->id,
                     'title'	      => $category->title,
                     'slug'		  => $category->slug,
@@ -58,15 +58,14 @@ class ComArticlesModelCategories extends KModelAbstract
                  	'locked_by'	  => $category->locked_by,
                     'locked_on'   => $category->locked_on,    
                     'access'	  => $category->access,
-                    'parent_id'   => $category->section,
+                    'parent_id'   => $category->section_id,
                     'path'		  => '',
                     'type'		  => 'category'
                 );
             }
 
-            $sections = KFactory::tmp('admin::com.articles.model.sections')
+            $sections = KFactory::get('com://admin/articles.model.sections')
                 ->published($this->_state->published)
-                ->scope('content')
                 ->limit(0)
                 ->sort($this->_state->sort)
                 ->direction($this->_state->direction)
@@ -134,7 +133,7 @@ class ComArticlesModelCategories extends KModelAbstract
 				$folders[$key]['path'] = $path;	
 			}
 			
-            $folders = KFactory::tmp('admin::com.articles.database.rowset.folders', array('data' => $folders));
+            $folders = KFactory::get('com://admin/articles.database.rowset.folders', array('data' => $folders));
             $this->_list = $folders;
         }
 

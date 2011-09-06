@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: file.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: file.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -31,7 +31,7 @@ class ComFilesControllerFile extends ComFilesControllerNode
 		if (!$context->data->file)
 		{
 			$context->data->file = KRequest::get('files.file.tmp_name', 'raw');
-			$context->data->path = KRequest::get('files.file.name', 'lib.koowa.filter.filename');
+			$context->data->path = KRequest::get('files.file.name', 'koowa.filter.filename');
 		}
 	}
 }

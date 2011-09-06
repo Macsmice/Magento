@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: image.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: image.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -18,37 +18,6 @@
  * @subpackage  Files
  */
 
-class ComFilesControllerImage extends ComDefaultControllerResource
+class ComFilesControllerImage extends ComFilesControllerNode
 {
-	protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-			'persistable' => false,
-			'request'     => array(
-				'identifier' => 'files.files'
-			)
-		));
-
-		parent::_initialize($config);
-	}
-
-	public function loadState(KCommandContext $context)
-	{
-		parent::loadState($context);
-
-		KFactory::get('admin::com.files.model.configs')
-			->set($this->getRequest())
-			->getItem();
-	}
-
-	public function getView()
-	{
-		$view = parent::getView();
-
-		if ($view) {
-			$view->assign('editor', $this->_request->e_name);
-		}
-
-		return $view;
-	}
 }

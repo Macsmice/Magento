@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: results.php 1346 2011-05-18 23:02:23Z johanjanssens $
+ * @version		$Id: results.php 2638 2011-09-01 03:06:03Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Search
@@ -29,7 +29,7 @@ class ComSearchModelResults extends KModelAbstract
 		parent::__construct($config);
 		
 		$this->_state
-		    ->insert('term'     , 'site::com.search.filter.term')
+		    ->insert('term'     , 'com://site/search.filter.term')
 		    ->insert('match'    , 'cmd', 'all')
 		    ->insert('ordering' , 'cmd', 'newest')
 		    ->insert('areas'    , 'cmd', null)
@@ -75,7 +75,7 @@ class ComSearchModelResults extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
             
-			$this->_list = KFactory::tmp('site::com.search.database.rowset.results', array('data' => $data));
+			$this->_list = KFactory::get('com://site/search.database.rowset.results', array('data' => $data));
 		}
 		
 		return $this->_list;

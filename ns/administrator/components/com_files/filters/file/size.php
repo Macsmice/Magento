@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: size.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: size.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesFilterFileSize extends KFilterAbstract
@@ -33,7 +33,7 @@ class ComFilesFilterFileSize extends KFilterAbstract
 
 	protected function _initialize(KConfig $config)
 	{
-		$component_config = KFactory::get('admin::com.files.database.row.config');
+		$component_config = KFactory::get('com://admin/files.database.row.config');
 
 		$config->append(array(
 			'maximum_size' => $component_config->upload_maxsize
@@ -46,11 +46,11 @@ class ComFilesFilterFileSize extends KFilterAbstract
 	{
 		$config = $this->_config;
 
-		if ($config->maximum_size) 
+		if ($config->maximum_size)
 		{
 			$row = $context->caller;
 			$size = $row->contents ? strlen($row->contents) : filesize($row->file);
-			
+
 			if ($size > $config->maximum_size) {
 				$context->setError(JText::_('WARNFILETOOLARGE'));
 				return false;

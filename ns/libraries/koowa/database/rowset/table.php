@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: table.php 3540 2011-06-20 15:00:35Z johanjanssens $
+ * @version		$Id: table.php 3812 2011-09-01 02:12:41Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Rowset
@@ -21,7 +21,7 @@
 class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 {
 	/**
-	 * Table object or identifier (APP::com.COMPONENT.table.NAME)
+	 * Table object or identifier (com://APP/COMPONENT.table.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -139,19 +139,20 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Get an empty row
 	 *
+	 * @param	array An optional associative array of configuration settings.
 	 * @return	object	A KDatabaseRow object.
 	 */
-	public function getRow() 
+	public function getRow(array $options = array()) 
 	{
 		$result = null;
 		
 	    if($this->isConnected()) {
-		    $result = $this->getTable()->getRow();
+		    $result = $this->getTable()->getRow($options);
 		}
 	    
 	    return $result;
 	}
-
+	
 	/**
 	 * Forward the call to each row
 	 * 

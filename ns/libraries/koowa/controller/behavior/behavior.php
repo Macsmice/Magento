@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: behavior.php 3540 2011-06-20 15:00:35Z johanjanssens $
+ * @version 	$Id: behavior.php 3854 2011-09-01 02:37:12Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Controller
  * @subpackage 	Behavior
@@ -32,10 +32,10 @@ class KControllerBehavior
 	    if(!($behavior instanceof KControllerBehaviorInterface))
 		{   
 		    if(is_string($behavior) && strpos($behavior, '.') === false ) {
-		       $behavior = 'com.default.controller.behavior.'.trim($behavior);
+		       $behavior = 'com:default.controller.behavior.'.trim($behavior);
 		    }    
 			
-		    $behavior = KFactory::tmp($behavior, $config);
+		    $behavior = KFactory::get($behavior, $config);
 		    
 		    //Check the behavior interface
 		    if(!($behavior instanceof KControllerBehaviorInterface)) 

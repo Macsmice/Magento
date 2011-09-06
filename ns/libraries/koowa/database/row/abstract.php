@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: abstract.php 3460 2011-06-09 02:33:54Z johanjanssens $
+ * @version		$Id: abstract.php 3803 2011-08-27 16:17:54Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
@@ -74,7 +74,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     	if(isset($config->identity_column)) {
 			$this->_identity_column = $config->identity_column;
 		}
-           
+		
         // Reset the row
         $this->reset();
         
@@ -280,7 +280,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->_data     = array();
         $this->_modified = array();
         
-        $this->setStatus(NULL);
         return true;
     }
     

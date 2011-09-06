@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: vcard.php 2876 2011-03-07 22:19:20Z johanjanssens $
+ * @version		$Id: vcard.php 3853 2011-09-01 02:36:41Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_View
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -55,7 +55,7 @@ class KViewVcard extends KViewFile
     public function display()
     {
         //Set the filename
-        $filename = KFactory::tmp('lib.koowa.filter.filename')->sanitize($this->_properties['FN']);
+        $filename = KFactory::get('koowa:filter.filename')->sanitize($this->_properties['FN']);
         $this->filename = $filename.'.vcf';
         
         //Render the vcard  

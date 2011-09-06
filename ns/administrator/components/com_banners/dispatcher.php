@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: dispatcher.php 1379 2011-05-20 21:09:32Z johanjanssens $
+ * @version		$Id: dispatcher.php 2625 2011-09-01 03:03:10Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -24,7 +24,7 @@ class ComBannersDispatcher extends ComDefaultDispatcher
 	{
 	    $result = parent::_actionAuthorize($context);
 	    
-	    if(!KFactory::get('lib.joomla.user')->authorize( 'com_weblinks', 'manage' ))
+	    if(!KFactory::get('joomla:user')->authorize( 'com_weblinks', 'manage' ))
 	    {
 	        throw new KDispatcherException(JText::_('ALERTNOTAUTH'), KHttpResponse::FORBIDDEN);
             $result = false;

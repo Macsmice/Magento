@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: url.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: url.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -125,7 +125,7 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
-		$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
+		$uri = KFactory::get('koowa:http.url', array('url' => $url));
 
 		$scheme = $uri->get(KHttpUrl::SCHEME);
 		$host = $uri->get(KHttpUrl::HOST);

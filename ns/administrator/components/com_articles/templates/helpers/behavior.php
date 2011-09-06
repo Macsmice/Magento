@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: behavior.php 2208 2011-07-14 11:08:13Z johanjanssens $
+ * @version     $Id: behavior.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -27,7 +27,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 		    'name'    => '',
 		    'format'  => '%Y-%m-%d %H:%M:%S',
 		    'attribs' => array('size' => 25, 'maxlenght' => 19),
-		    'gmt_offset' => KFactory::get('lib.joomla.config')->getValue('config.offset') * 3600
+		    'gmt_offset' => KFactory::get('joomla:config')->getValue('config.offset') * 3600
  		));
  		
 	    if(!is_numeric($config->date)) {

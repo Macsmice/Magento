@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: files.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: files.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
-echo KFactory::get('admin::com.files.dispatcher')->dispatch();
+echo KFactory::get('com://admin/files.dispatcher')->dispatch();

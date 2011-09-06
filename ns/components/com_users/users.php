@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: users.php 862 2011-04-08 01:34:13Z johanjanssens $
+ * @version     $Id: users.php 2639 2011-09-01 03:06:25Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -17,6 +17,6 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-KLoader::load('site::com.users.mappings');
+KLoader::load('com://site/users.mappings');
 
-echo KFactory::get('site::com.users.dispatcher')->dispatch();
+echo KFactory::get('com://site/users.dispatcher')->dispatch();

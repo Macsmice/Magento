@@ -22,7 +22,7 @@ Files.File = new Class({
 	'delete': function(success, failure) {
 		var path = this.path;
 		var request = new Request.JSON({
-			url: 'index.php?option=com_files&view=files&format=json&path='+path+'&identifier='+Files.identifier,
+			url: '?option=com_files&view=files&format=json&path='+path+'&container='+Files.container,
 			method: 'post',
 			data: {
 				'action': 'delete',
@@ -34,6 +34,11 @@ Files.File = new Class({
 				}
 			},
 			onFailure: function(xhr) {
+				if (xhr.status == 204) {
+					// Mootools thinks it failed, weird
+					return this.onSuccess();
+				}
+				
 				if (typeof failure == 'function') {
 					failure(xhr);
 				}
@@ -58,7 +63,7 @@ Files.Image = new Class({
 
 		this.baseurl = Files.baseurl;
 
-		this.image = '/'+this.baseurl+'/'+this.path;
+		this.image = this.baseurl+'/'+this.path;
 	}
 });
 
@@ -75,23 +80,54 @@ Files.Folder = new Class({
 			option: 'com_files',
 			view: 'nodes',
 			folder: path,
-			identifier: Files.identifier,
+			container: Files.container,
 			format: 'json'
 		};
+		
 		if (extra_vars) {
-			$extend(url, extra_vars);
+			url = $extend(url, extra_vars);
 		}
-
+		var url = '?'+new Hash(url).filter(function(value, key) {
+			return typeof value !== 'function';
+		}).toQueryString();
+			
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
-		Files.Folder.Request.get(url);
+		Files.Folder.Request.options.url = url;
+		Files.Folder.Request.get();
 	},
-
-
+	'add': function(success, failure) {
+		var path = this.path;
+		var request = new Request.JSON({
+			url: '?option=com_files&view=folder&format=json&container='+Files.container,
+			method: 'post',
+			data: {
+				'_token': Files.token,
+				'parent': Files.app.getPath(),
+				'path': path
+			},
+			onSuccess: function(response, responseText) {
+				if (typeof success == 'function') {
+					success(response);
+				}
+			},
+			onFailure: function(xhr) {
+				if (typeof failure == 'function') {
+					failure(xhr);
+				}
+				else {
+					resp = JSON.decode(xhr.responseText, true);
+					error = resp && resp.error ? resp.error : 'An error occurred during request';
+					alert(error);
+				}
+			}
+		});
+		request.send();
+	},
 	'delete': function(success, failure) {
 		var path = this.path;
 		var request = new Request.JSON({
-			url: 'index.php?option=com_files&view=folders&format=json&path='+path+'&identifier='+Files.identifier,
+			url: '?option=com_files&view=folders&format=json&path='+path+'&container='+Files.container,
 			method: 'post',
 			data: {
 				'action': 'delete',
@@ -103,6 +139,11 @@ Files.Folder = new Class({
 				}
 			},
 			onFailure: function(xhr) {
+				if (xhr.status == 204) {
+					// Mootools thinks it failed, weird
+					return this.onSuccess();
+				}
+				
 				if (typeof failure == 'function') {
 					failure(xhr);
 				}

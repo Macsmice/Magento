@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: categories.php 2475 2011-08-13 14:07:45Z gergoerdosi $
+ * @version     $Id: categories.php 2626 2011-09-01 03:03:23Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories
@@ -21,18 +21,20 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
 {
     public function  _initialize(KConfig $config)
     {
-        $orderable = $this->getBehavior('admin::com.categories.database.behavior.orderable', array('parent_column' => 'section'));
+        $config->identity_column = 'id';
+        $orderable = $this->getBehavior('com://admin/categories.database.behavior.orderable', array('parent_column' => 'section_id'));
 
         $config->append(array(
             'name'       => 'categories',
-            'behaviors'  => array('lockable', $orderable, 'sluggable', 'cascadable'),
+            'behaviors'  => array('lockable',$orderable, 'sluggable', 'cascadable'),
             'column_map' => array(
                 'enabled'      => 'published',
                 'locked_on'    => 'checked_out_time',
                 'locked_by'    => 'checked_out',
-                'slug'         => 'alias'
-            ),
-        ));
+                'slug'         => 'alias',
+                'section_id'   => 'section'
+                ),
+            ));
 
         parent::_initialize($config);
     }

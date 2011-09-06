@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: password.php 1942 2011-06-23 20:52:40Z ercanozkaya $
+ * @version     $Id: password.php 2630 2011-09-01 03:04:40Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -76,7 +76,7 @@ class ComUsersHelperPassword extends KObject implements KObjectIdentifiable
      */
     public function getHash($seed)
     {
-        $secret = KFactory::get('lib.joomla.config')->getValue('config.secret');
+        $secret = KFactory::get('joomla:config')->getValue('config.secret');
         return md5($secret.$seed);
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: array.php 3797 2011-08-27 12:59:04Z johanjanssens $
+ * @version     $Id: array.php 3808 2011-08-28 15:04:38Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage	Array

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: filter.php 3540 2011-06-20 15:00:35Z johanjanssens $
+ * @version 	$Id: filter.php 3844 2011-09-01 02:33:12Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage 	Filter
@@ -38,10 +38,10 @@ class KTemplateFilter
 	    if(!($filter instanceof KTemplateFilterInterface))
 		{   
 		    if(is_string($filter) && strpos($filter, '.') === false ) {
-		       $filter = 'com.default.template.filter.'.trim($filter);
+		       $filter = 'com:default.template.filter.'.trim($filter);
 		    }    
 			
-		    $filter = KFactory::tmp($filter, $config);
+		    $filter = KFactory::get($filter, $config);
 		    
 		    if(!($filter instanceof KTemplateFilterInterface)) 
 		    {

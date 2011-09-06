@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: templates_icons.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: templates_icons.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -9,6 +9,8 @@
  * @link        http://www.nooku.org
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
+
+<style src="media://com_files/css/files-layout-icons.css" />
 
 <textarea style="display: none" id="icons_container">
 <div>
@@ -34,6 +36,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </div>
 </textarea>
 
+<textarea style="display: none" id="icons_controls">
+<div class="controls">
+	<input type="checkbox" class="files-select" value="[%=path%]" />
+</div>
+<div class="imginfoBorder ellipsis">
+	[%=name%]
+</div>
+
+</textarea>
+
 <textarea style="display: none" id="icons_folder">
 <div class="imgOutline files-node files-folder">
 	<div class="imgTotal">
@@ -43,17 +55,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</a>
 		</div>
 	</div>
-	<div class="controls">
-		<a class="delete-node" href="#" rel="[%=path%]">
-			<img src="media://com_files/images/remove.png" width="16" height="16" border="0" alt="<?= @text('Delete'); ?>" />
-		</a>
-		<input type="checkbox" class="files-select" value="[%=path%]" />
-	</div>
-	<div class="imginfoBorder ellipsis">
-		<a href="#" class="navigate">
-			[%=name%]
-		</a>
-	</div>
+	[%= new EJS({element: 'icons_controls'}).render(this) %]
 </div>
 </textarea>
 
@@ -62,21 +64,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
 		 	<a class="navigate" href="#" style="display: block; width: 100%; height: 100%">
-				<img src="/[%=Files.sitebase%]/[%=icons['32']%]" border="0" />
+				<img src="[%=Files.sitebase ? Files.sitebase : ''%]/[%=icons['32']%]" border="0" />
 			</a>
 		</div>
+		[%= new EJS({element: 'icons_controls'}).render(this) %]
 	</div>
-	<div class="controls">
-		<a class="delete-node" href="#" rel="[%=path%]">
-			<img src="media://com_files/images/remove.png" width="16" height="16" border="0" alt="<?= @text('Delete'); ?>" />
-		</a>
-		<input type="checkbox" class="files-select" value="[%=path%]" />
-	</div>
-	<div class="imginfoBorder ellipsis">
-		<a href="#" class="navigate">
-			[%=name%]
-		</a>
-	</div>
+
 </div>
 </textarea>
 
@@ -86,21 +79,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<div align="center" class="imgBorder">
 			<a class="img-preview navigate" href="#" title="[%=name%]" style="display: block; width: 100%; height: 100%">
 				<div class="image">
-					<img src="/[%=baseurl%]/[%=path%]" width="[%=thumbnail.width%]" height="[%=thumbnail.height%]" alt="[%=name%]" border="0" />
+					<img src="media://com_files/images/spinner.gif"
+						alt="[%=name%]" border="0"
+						class="image-thumbnail" />
 				</div>
 			</a>
 		</div>
 	</div>
-	<div class="controls">
-		<a class="delete-node" href="#" rel="[%=path%]">
-			<img src="media://com_files/images/remove.png" width="16" height="16" border="0" alt="<?= @text('Delete'); ?>" />
-		</a>
-		<input type="checkbox" class="files-select" value="[%=path%]" />
-	</div>
-	<div class="imginfoBorder ellipsis">
-		<a href="#" class="navigate">
-			[%=name%]
-		</a>
-	</div>
+	[%= new EJS({element: 'icons_controls'}).render(this) %]
 </div>
 </textarea>

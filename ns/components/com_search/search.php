@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: search.php 1306 2011-05-17 14:08:31Z johanjanssens $
+ * @version		$Id: search.php 2638 2011-09-01 03:06:03Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Search
@@ -18,4 +18,4 @@
  * @subpackage  Search
  */
 
-echo KFactory::get('site::com.search.dispatcher')->dispatch();
+echo KFactory::get('com://site/search.dispatcher')->dispatch();

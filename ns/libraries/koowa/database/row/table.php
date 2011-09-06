@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: table.php 3652 2011-06-27 19:24:47Z johanjanssens $
+ * @version		$Id: table.php 3810 2011-09-01 02:12:02Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
@@ -20,7 +20,7 @@
 class KDatabaseRowTable extends KDatabaseRowAbstract
 {
 	/**
-	 * Table object or identifier (APP::com.COMPONENT.table.NAME)
+	 * Table object or identifier (com://APP/COMPONENT.table.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -236,9 +236,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		
 		if($this->isConnected())
 		{
-	        if($this->_data = $this->getTable()->getDefaults()) 
-	        {
-		        $this->setStatus(null);
+	        if($this->_data = $this->getTable()->getDefaults()) {
 		        $result = true;
 		    }
 		}

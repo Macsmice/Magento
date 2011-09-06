@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: mappings.php 1295 2011-05-16 22:58:08Z johanjanssens $
+ * @version		$Id: mappings.php 2643 2011-09-01 03:07:12Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -18,5 +18,5 @@
  * @subpackage  Weblinks
  */
 
-KFactory::map('site::com.weblinks.model.categories', 'admin::com.weblinks.model.categories');
-KFactory::map('site::com.weblinks.model.weblinks'  , 'admin::com.weblinks.model.weblinks');
+KFactory::map('com://site/weblinks.model.categories', 'com://admin/weblinks.model.categories');
+KFactory::map('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');

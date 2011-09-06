@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: html.php 1419 2011-05-22 19:50:01Z johanjanssens $
+ * @version		$Id: html.php 2643 2011-09-01 03:07:12Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -26,12 +26,12 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	 */
 	public function display()
 	{
-	    $category = KFactory::tmp('site::com.weblinks.model.categories')
+	    $category = KFactory::get('com://site/weblinks.model.categories')
 	                        ->id($this->getModel()->getState()->category)
 	                        ->getItem();
 	                        
-	    $categories = KFactory::get('site::com.weblinks.model.categories')->getList();
-		$params     = KFactory::get('lib.joomla.application')->getParams();
+	    $categories = KFactory::get('com://site/weblinks.model.categories')->getList();
+		$params     = KFactory::get('joomla:application')->getParams();
 
 		// Set up the category image
 		if (isset( $category->image ) && $category->image != '')

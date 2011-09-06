@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: abstract.php 3573 2011-06-23 12:49:56Z johanjanssens $
+ * @version		$Id: abstract.php 3841 2011-09-01 02:31:02Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Model
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -79,7 +79,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-            'state'      => KFactory::tmp('lib.koowa.model.state'),
+            'state' => KFactory::get('koowa:config.state'),
        	));
 
        	parent::_initialize($config);
@@ -109,7 +109,8 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	/**
      * Set the model state properties
      *
-     * This function overloads the KObject::set() function and only acts on state properties.
+     * This function overloads the KObject::set() function and only acts on state properties it
+     * will reset (unsets) the $_list, $_item and $_total model properties when a state changes.
      *
      * @param   string|array|object	The name of the property, an associative array or an object
      * @param   mixed  				The value of the property
@@ -117,14 +118,39 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
      */
     public function set( $property, $value = null )
     {
-    	if(is_object($property)) {
+    	$changed = false;
+        
+        if(is_object($property)) {
     		$property = (array) KConfig::toData($property);
     	}
 
-    	if(is_array($property)) {
+        if(is_array($property))
+        {
+            foreach($property as $key => $value)
+            {
+                if(isset($this->_state->$key) && $this->_state->$key != $value)
+                {
+                    $changed = true;
+                    break;
+                }
+            }
+            
         	$this->_state->setData($property);
-        } else {
-        	$this->_state->$property = $value;
+        } 
+        else
+        {
+            if(isset($this->_state->$property) && $this->_state->$property != $value) {
+                $changed = true;
+            }
+            
+            $this->_state->$property = $value;
+        }
+        
+        if($changed)
+        {
+            unset($this->_list);
+            unset($this->_item);
+            unset($this->_total);
         }
 
         return $this;
@@ -238,17 +264,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 
         return $data;
     }
-    
-    /**
-     * Get the distinct values of a column
-     *
-     * @return object
-     */
-    public function getColumn($column)
-    {   
-        return $this->_column[$column];
-    }
-    
+      
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by
      * using the state name as the method name.
@@ -268,5 +284,15 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
         }
 
         return parent::__call($method, $args);
+    }
+    
+	/**
+     * Preform a deep clone of the object.
+     *
+     * @retun void
+     */
+    public function __clone()
+    {
+        $this->_state = clone $this->_state;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: query.php 3749 2011-08-10 19:05:22Z johanjanssens $
+ * @version		$Id: query.php 3813 2011-09-01 02:12:54Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
@@ -130,7 +130,7 @@ class KDatabaseQuery extends KObject
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'adapter' => KFactory::get('lib.koowa.database.adapter.mysqli')
+            'adapter' => KFactory::get('koowa:database.adapter.mysqli')
         ));
 
         parent::_initialize($config);

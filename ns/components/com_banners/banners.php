@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: banners.php 1381 2011-05-20 21:14:00Z johanjanssens $
+ * @version     $Id: banners.php 2644 2011-09-01 03:07:20Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Banners
@@ -18,6 +18,6 @@
  * @subpackage  Banners    
  */
 
-KLoader::load('site::com.banners.mappings');
+KLoader::load('com://site/banners.mappings');
 
-echo KFactory::get('site::com.banners.dispatcher')->dispatch();
+echo KFactory::get('com://site/banners.dispatcher')->dispatch();

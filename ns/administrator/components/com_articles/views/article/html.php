@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: html.php 2021 2011-06-26 16:56:55Z johanjanssens $
+ * @version     $Id: html.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -22,7 +22,7 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $this->assign('user', KFactory::get('lib.joomla.user'));
+        $this->assign('user', KFactory::get('joomla:user'));
         return parent::display();
     }
 }

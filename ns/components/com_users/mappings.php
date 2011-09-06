@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mappings.php 1957 2011-06-24 13:25:49Z ercanozkaya $
+ * @version     $Id: mappings.php 2639 2011-09-01 03:06:25Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -18,9 +18,9 @@
  * @subpackage  Users
  */
 
-KFactory::map('site::com.users.controller.default'   , 'admin::com.users.controller.default');
-KFactory::map('site::com.users.model.users'          , 'admin::com.users.model.users');
-KFactory::map('site::com.users.database.row.user'    , 'admin::com.users.database.row.user');
-KFactory::map('site::com.users.database.table.groups', 'admin::com.users.database.table.groups');
-KFactory::map('site::com.users.database.table.users' , 'admin::com.users.database.table.users');
-KFactory::map('site::com.users.helper.password'      , 'admin::com.users.helper.password');
+KFactory::map('com://site/users.controller.default'   , 'com://admin/users.controller.default');
+KFactory::map('com://site/users.model.users'          , 'com://admin/users.model.users');
+KFactory::map('com://site/users.database.row.user'    , 'com://admin/users.database.row.user');
+KFactory::map('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
+KFactory::map('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
+KFactory::map('com://site/users.helper.password'      , 'com://admin/users.helper.password');

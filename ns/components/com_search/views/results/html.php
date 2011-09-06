@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: html.php 1346 2011-05-18 23:02:23Z johanjanssens $
+ * @version		$Id: html.php 2638 2011-09-01 03:06:03Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Search
@@ -29,7 +29,7 @@ class ComSearchViewResultsHtml extends ComDefaultViewHtml
 	 */
 	public function display()
 	{
-		$params = KFactory::get('lib.joomla.application')->getParams();	
+		$params = KFactory::get('joomla:application')->getParams();	
 		$this->assign('params', $params);
 		
 		return parent::display();

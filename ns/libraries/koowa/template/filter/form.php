@@ -1,6 +1,6 @@
 <?php
 /**
-* @version      $Id: form.php 3433 2011-06-03 16:05:23Z johanjanssens $
+* @version      $Id: form.php 3729 2011-08-08 12:14:02Z johanjanssens $
 * @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter
@@ -111,5 +111,7 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
                 $text = str_replace($matches[0][$key], $matches[0][$key].$input, $text);
             }   
         }
+        
+        return $this;
     }
 }

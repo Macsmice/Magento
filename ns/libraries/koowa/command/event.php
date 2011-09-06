@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: event.php 3412 2011-06-02 15:24:57Z johanjanssens $
+ * @version		$Id: event.php 3809 2011-09-01 02:08:45Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Command
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -56,7 +56,7 @@ class KCommandEvent extends KCommand
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'dispatcher'   => KFactory::get('lib.koowa.event.dispatcher')
+            'dispatcher'   => KFactory::get('koowa:event.dispatcher')
         ));
 
         parent::_initialize($config);
@@ -85,8 +85,8 @@ class KCommandEvent extends KCommand
         }
         
         $parts = explode('.', $name);   
-        $event = 'on'.ucfirst($type.KInflector::implode($parts));
-                
+        $event = 'on'.ucfirst(array_shift($parts)).ucfirst($type).KInflector::implode($parts);
+       
         $this->_dispatcher->dispatchEvent($event, clone($context));
         
         return true;

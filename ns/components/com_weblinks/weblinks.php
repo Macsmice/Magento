@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblinks.php 1295 2011-05-16 22:58:08Z johanjanssens $
+ * @version		$Id: weblinks.php 2643 2011-09-01 03:07:12Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -18,6 +18,6 @@
  * @subpackage  Weblinks
  */
 
-KLoader::load('site::com.weblinks.mappings');
+KLoader::load('com://site/weblinks.mappings');
 
-echo KFactory::get('site::com.weblinks.dispatcher')->dispatch();
+echo KFactory::get('com://site/weblinks.dispatcher')->dispatch();

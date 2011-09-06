@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: executable.php 3646 2011-06-27 13:42:46Z johanjanssens $
+ * @version     $Id: executable.php 3857 2011-09-01 02:38:09Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -58,9 +58,9 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         if(parent::canAdd())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
-                $result = KFactory::get('lib.joomla.user')->authorise('core.create');
+                $result = KFactory::get('joomla:user')->authorise('core.create');
             } else {
-                $result = KFactory::get('lib.joomla.user')->get('gid') > 18;
+                $result = KFactory::get('joomla:user')->get('gid') > 18;
             }
         }
           
@@ -79,9 +79,9 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         if(parent::canEdit())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
-                $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
+                $result = KFactory::get('joomla:user')->authorise('core.edit');
             } else {
-                $result = KFactory::get('lib.joomla.user')->get('gid') > 19;
+                $result = KFactory::get('joomla:user')->get('gid') > 19;
             }
         }
               
@@ -100,9 +100,9 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         if(parent::canDelete())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
-                $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
+                $result = KFactory::get('joomla:user')->authorise('core.delete');
             } else {
-                $result = KFactory::get('lib.joomla.user')->get('gid') > 20;
+                $result = KFactory::get('joomla:user')->get('gid') > 20;
             }
         }
             

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: form.php 2475 2011-08-13 14:07:45Z gergoerdosi $
+ * @version     $Id: form.php 2477 2011-08-16 13:33:39Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Categories

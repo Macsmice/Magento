@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: set.php 3707 2011-07-19 18:18:01Z johanjanssens $
+ * @version		$Id: set.php 3808 2011-08-28 15:04:38Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Object
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.

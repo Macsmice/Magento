@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: orderable.php 1855 2011-06-22 00:39:11Z johanjanssens $
+ * @version     $Id: orderable.php 2620 2011-09-01 03:01:54Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -24,7 +24,7 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
     {
         if($this->featured_order) 
         {
-            KFactory::tmp('admin::com.articles.database.row.featured')
+            KFactory::get('com://admin/articles.database.row.featured')
                ->set('id', $this->id)
                ->load()
                ->order($this->order);

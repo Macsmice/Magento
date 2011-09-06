@@ -1,6 +1,6 @@
 <?php 
 /**
- * @version     $Id: form.php 1595 2011-06-05 14:23:01Z johanjanssens $
+ * @version     $Id: form.php 2630 2011-09-01 03:04:40Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -33,7 +33,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </p>
     <p id="form-login-site">
      	<label for="modlgn_site"><?php echo JText::_('Site'); ?></label><br />
-        <?= KTemplateHelper::factory('admin::com.sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
+        <?= KTemplateHelper::factory('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
   	</p>
     <? if($error = JError::getError(true)) : ?>
         <p id="login-error-message"><?= $error->get('message') ?></p>

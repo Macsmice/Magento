@@ -1,6 +1,6 @@
  <?php
 /**
- * @version		$Id: weblink.php 1760 2011-06-15 22:31:34Z johanjanssens $
+ * @version		$Id: weblink.php 2643 2011-09-01 03:07:12Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -35,7 +35,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 		if ($this->_request->format == 'html')
 		{           
 			if ($weblink->url) {
-				KFactory::get('lib.joomla.application')->redirect($weblink->url);
+				KFactory::get('joomla:application')->redirect($weblink->url);
 			}
 
 			return true;

@@ -30,27 +30,28 @@
  <?php endif ?>
 
 </head>
-<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?> <?php echo JDEBUG ? '-koowa-box-scroll' : '' ?>">
+<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="container" class="-koowa-box -koowa-box-vertical">
 		<div id="header-box">
-			<div id="module-status">
-				<jdoc:include type="modules" name="status"  />
-			</div>
-			<div id="module-menu">
-				<jdoc:include type="modules" name="menu" />
-			</div>
+			<jdoc:include type="modules" name="menu" />
+			<jdoc:include type="modules" name="status"  />
 		</div>
 		<div id="tabs-box">
 			<jdoc:include type="modules" name="submenu" />
 		</div>
+		<?php if($this->countModules('toolbar OR title')) : ?>
 		<div id="toolbar-box">
 			<jdoc:include type="modules" name="toolbar" />
 			<jdoc:include type="modules" name="title" />
 		</div>
+		<?php endif; ?>
 		<jdoc:include type="message" />
 		<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
 			<jdoc:include type="component" />
 		</div>
-	</div>	 
+	</div>
+	<?php if(KDEBUG) : ?>
+		<?php echo KFactory::get('com://admin/debug.controller.debug')->display(); ?>
+	<?php endif; ?>
 </body>
 </html>

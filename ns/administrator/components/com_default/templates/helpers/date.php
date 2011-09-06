@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: date.php 3261 2011-05-07 11:38:34Z johanjanssens $
+ * @version     $Id: date.php 3883 2011-09-01 02:48:46Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -34,7 +34,7 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
         $config = new KConfig($config);
         $config->append(array(
             'format' => JText::_('DATE_FORMAT_LC1'),
-            'gmt_offset' => KFactory::get('lib.joomla.config')->getValue('config.offset') * 3600
+            'gmt_offset' => KFactory::get('joomla:config')->getValue('config.offset') * 3600
         ));
         
         return parent::format($config);

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: koowa.php 3673 2011-06-30 23:14:16Z johanjanssens $
+* @version		$Id: koowa.php 3682 2011-07-11 13:07:26Z johanjanssens $
 * @category		Koowa
 * @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

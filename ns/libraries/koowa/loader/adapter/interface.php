@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: interface.php 2927 2011-03-17 21:34:52Z johanjanssens $
+ * @version 	$Id: interface.php 3901 2011-09-01 02:59:31Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
@@ -25,6 +25,13 @@ interface KLoaderAdapterInterface
 	 * @return boolean Return TRUE on success, FALSE on failure
 	 */
 	public function path($class);
+	
+	/**
+	 * Get the type
+	 *
+	 * @return string	Returns the type
+	 */
+	public function getType();
 	
 	/**
 	 * Get the class prefix

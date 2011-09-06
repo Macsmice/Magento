@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: config.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: config.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -62,6 +62,8 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 		$registry->loadIni($params);
 
 		$this->setData($registry->toArray());
+		
+		return $this;
 	}
 
 	public function __get($column)

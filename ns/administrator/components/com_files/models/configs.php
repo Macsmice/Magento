@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: default.php 1829 2011-06-21 01:59:15Z johanjanssens $
+ * @version     $Id: configs.php 872 2011-09-01 21:35:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -17,24 +17,38 @@
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesModelConfigs extends ComDefaultModelDefault
+class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInstantiatable
 {
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->_state->insert('identifier', 'identifier', null);
+		$this->_state->insert('container', 'identifier', null);
 	}
+
+    public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
 
 	public function getItem()
 	{
 		if (!isset($this->_item))
 		{
-			$this->_item = KFactory::get('admin::com.files.database.row.config');
-			$identifier = KFactory::get('admin::com.files.model.paths')->identifier((string)$this->_state->identifier)->getItem();
+			$this->_item = KFactory::get('com://admin/files.database.row.config');
+			$container = KFactory::get('com://admin/files.model.containers')->id((string)$this->_state->container)->getItem();
 
-			$this->_item->identifier = $identifier;
-			$this->_item->setData(json_decode($identifier->parameters, true));
+			$this->_item->container = $container;
+			$this->_item->setData(json_decode($container->parameters, true));
 		}
 
 		return parent::getItem();

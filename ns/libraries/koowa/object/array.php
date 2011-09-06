@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: array.php 3568 2011-06-23 02:53:20Z johanjanssens $
+ * @version		$Id: array.php 3808 2011-08-28 15:04:38Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Object
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.

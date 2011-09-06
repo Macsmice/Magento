@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: folder.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: folder.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -24,8 +24,8 @@ class ComFilesCommandValidatorFolder extends KCommand
 	{
 		$row = $context->caller;
 
-		$row->path = KFactory::tmp('admin::com.files.filter.folder.name')->sanitize($row->path);
+		$row->path = KFactory::get('com://admin/files.filter.folder.name')->sanitize($row->path);
 
-		return KFilter::factory('admin::com.files.filter.folder.uploadable')->validate($context);
+		return KFilter::factory('com://admin/files.filter.folder.uploadable')->validate($context);
 	}
 }

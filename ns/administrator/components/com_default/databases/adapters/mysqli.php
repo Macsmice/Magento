@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mysqli.php 3658 2011-06-27 20:46:45Z johanjanssens $
+ * @version     $Id: mysqli.php 3914 2011-09-01 21:39:36Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -18,7 +18,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
+class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements KObjectInstantiatable
 { 
     /**
 	 * The cache object
@@ -38,10 +38,29 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
 	{
 		parent::__construct($config);
 	
-		if(KFactory::get('lib.joomla.config')->getValue('config.caching')) {
-	        $this->_cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
+		if(KFactory::get('joomla:config')->getValue('config.caching')) {
+	        $this->_cache = KFactory::get('joomla:cache', array('database', 'output'));
 		}
 	}
+	
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDatabaseTableDefault
+     */
+    public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
     
     /**
      * Initializes the options for the object
@@ -53,7 +72,7 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
      */
     protected function _initialize(KConfig $config)
     {
-        $db = KFactory::get('lib.joomla.database');
+        $db = KFactory::get('joomla:database');
         
 		$resource = method_exists($db, 'getConnection') ? $db->getConnection() : $db->_resource;
 		$prefix   = method_exists($db, 'getPrefix')     ? $db->getPrefix()     : $db->_table_prefix;

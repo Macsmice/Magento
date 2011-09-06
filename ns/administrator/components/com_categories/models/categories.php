@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    	$Id: categories.php 1751 2011-06-14 22:40:11Z johanjanssens $
+ * @version    	$Id: categories.php 2528 2011-08-22 23:26:04Z johanjanssens $
  * @category	Nooku
  * @package    	Nooku_Server
  * @subpackage 	Categories
@@ -28,7 +28,6 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         // Set the state
         $this->_state
             ->insert('section'   , 'string')
-            //as 'section' is ambiguous, we need an alias
             ->insert('parent'    , 'string')
             ->insert('published' , 'int')
             ->insert('distinct'  , 'string');

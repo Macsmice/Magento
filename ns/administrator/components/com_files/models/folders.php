@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: folders.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: folders.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,10 +15,8 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
-
-jimport('joomla.filesystem.folder');
 
 class ComFilesModelFolders extends ComFilesModelDefault
 {
@@ -31,9 +29,9 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 	public function getItem()
 	{
-		if (!isset($this->_item)) 
+		if (!isset($this->_item))
 		{
-			$this->_item	= KFactory::tmp('admin::com.files.database.row.folder', array(
+			$this->_item = KFactory::get('com://admin/files.database.row.folder', array(
 				'data' => array(
 					'basepath' => $this->_state->basepath,
 					'path' => $this->_state->path
@@ -45,96 +43,82 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 	public function getList()
 	{
-		if (!isset($this->_list)) 
+		if (!isset($this->_list))
 		{
 			$state = $this->_state;
-			if (!$state->basepath) {
-				throw new KModelException('Basepath is not a valid folder');
-			}
 
-			$basepath = $state->basepath;
-			$basepath = rtrim(str_replace('\\', '/', $basepath), '\\');
+			$state->basepath = rtrim(str_replace('\\', '/', $state->basepath), '\\');
 			$path = $state->basepath;
 
 			if (!empty($state->folder) && $state->folder != '/') {
 				$path .= '/'.ltrim($state->folder, '/');
 			}
 
-			if (!JFolder::exists($path)) {
+			if (!$state->basepath || !is_dir($path)) {
 				throw new KModelException('Basepath is not a valid folder');
 			}
 
-			$name = $state->path ? $state->path : null;
-			if (is_string($name)) {
-				$folders[] = $name;
-			}
-			else if (is_array($name)) 
-			{
+			if (!empty($state->path)) {
 				$folders = array();
-				foreach ($name as $n) {
-					$folders[] = $n;
+				foreach ((array) $state->path as $path) {
+					$folders[] = $path;
 				}
-			}
-			else 
-			{
-				$folders = JFolder::folders($path, '.', $state->tree ? true : false, true, array('.svn', '.git', 'CVS'));
-
-				foreach ($folders as &$folder) {
-					$folder = str_replace('\\', '/', $folder);
-					$folder = str_replace($basepath.'/', '', $folder);
-				}
-				unset($folder);
-			}
-
-			$search = $state->search;
-
-			if ($search) {
-				foreach ($folders as $i => $folder) {
-					if (stripos($folder, $search) === false) {
-						unset($folders[$i]);
-					}
-				}
+			} else {
+				$folders = ComFilesIteratorDirectory::getFolders(array(
+					'path' => $path,
+					'recurse' => !!$state->tree,
+					'filter' => array($this, 'iteratorFilter'),
+					'map' => array($this, 'iteratorMap')
+				));
 			}
 
 			$this->_total = count($folders);
-
 			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_total);
 
 			if (strtolower($this->_state->direction) == 'desc') {
 				$folders = array_reverse($folders);
 			}
 
-			$rowset = KFactory::tmp('admin::com.files.database.rowset.folders');
-
-			foreach ($folders as $folder) 
+			$results = array();
+			foreach ($folders as $folder)
 			{
-				$row = KFactory::tmp('admin::com.files.database.row.folder', array(
-					'data' => array(
-						'basepath' => $basepath,
-						'path' => $folder
-					)
-				));
-
-				if ($state->tree && count(explode('/', $folder)) != 1) 
-				{
-					$base = dirname($folder);
-
-					$parts = explode('/', $base);
-					$parent = $rowset->find($parts[0]);
-					for ($i = 2; $i <= count($parts); $i++) {
-						$needle = implode('/', array_slice($parts, 0, $i));
-						$parent = $parent->children->find($needle);
+				$hier = array();
+				if ($state->tree) {
+					$hier = explode('/', dirname($folder));
+					if (count($hier) === 1 && $hier[0] === '.') {
+						$hier = array();
 					}
-
-					$parent->children->insert($row);
 				}
-				else $rowset->insert($row);
+
+				$results[] = array(
+					'basepath' => $state->basepath,
+					'path' => $folder,
+					'hierarchy' => $hier
+				);
 			}
+
+			$rowset = KFactory::get('com://admin/files.database.rowset.folders');
+			$rowset->addData($results);
 
 			$this->_list = $rowset;
 		}
 
 		return parent::getList();
+	}
+
+	public function iteratorMap($folder)
+	{
+		$path = str_replace('\\', '/', $folder->getPathname());
+		$path = str_replace($this->_state->basepath.'/', '', $path);
+
+		return $path;
+	}
+
+	public function iteratorFilter($folder)
+	{
+		if ($this->_state->search && stripos($folder->getBasename(), $this->_state->search) === false) {
+			return false;
+		}
 	}
 
 	public function getColumn($column)

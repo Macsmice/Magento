@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: sections.php 2100 2011-06-29 23:56:52Z johanjanssens $
+ * @version     $Id: sections.php 2470 2011-08-11 09:24:14Z JohnBell $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -28,15 +28,4 @@ class ComArticlesControllerToolbarSections extends ComDefaultControllerToolbarDe
         return parent::getCommands();
     }
     
-    protected function _commandNew(KControllerToolbarCommand $command)
-    {
-        $option  = $this->_identifier->package;
-		$view	 = KInflector::singularize($this->_identifier->name);
-	
-        $command->append(array(
-            'attribs' => array(
-                'href'     => JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&scope=content' )
-            )
-        ));
-    }
 }

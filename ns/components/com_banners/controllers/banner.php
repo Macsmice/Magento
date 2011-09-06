@@ -1,6 +1,6 @@
 <?php
 /**
- * @version      $Id: banner.php 1797 2011-06-19 21:15:19Z tomjanssens $
+ * @version      $Id: banner.php 2644 2011-09-01 03:07:20Z johanjanssens $
  * @category     Nooku
  * @package      Nooku_Server
  * @subpackage   Banners
@@ -31,7 +31,7 @@ class ComBannersControllerBanner extends ComDefaultControllerDefault
 			    $banner->hit(); 
 			}
 		    
-		    KFactory::get('lib.joomla.application')->redirect($banner->clickurl);
+		    KFactory::get('joomla:application')->redirect($banner->clickurl);
 			return true;
 		}
 

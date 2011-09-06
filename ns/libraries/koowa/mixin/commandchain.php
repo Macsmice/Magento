@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: commandchain.php 3351 2011-05-24 22:26:33Z johanjanssens $
+ * @version     $Id: commandchain.php 3840 2011-09-01 02:30:47Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Mixin
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -54,7 +54,7 @@ class KMixinCommandchain extends KMixinAbstract
         
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) {
-            $this->_command_chain->enqueue(KFactory::get('lib.koowa.command.event'), $config->event_priority);
+            $this->_command_chain->enqueue($config->event, $config->event_priority);
         }
     }
     
@@ -70,6 +70,7 @@ class KMixinCommandchain extends KMixinAbstract
     {
         $config->append(array(
             'command_chain'     => new KCommandChain(),
+            'event'				=> KFactory::get('koowa:command.event'),
             'dispatch_events'   => true,
             'event_priority'    => KCommand::PRIORITY_LOWEST,
             'enable_callbacks'  => false,

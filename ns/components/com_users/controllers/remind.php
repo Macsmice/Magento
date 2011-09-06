@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: remind.php 1879 2011-06-23 15:22:40Z johanjanssens $
+ * @version     $Id: remind.php 2639 2011-09-01 03:06:25Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -23,13 +23,13 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
     {
         $email = KRequest::get('post.email', 'email');
 
-        if(!KFactory::tmp('lib.koowa.filter.email')->validate($email))
+        if(!KFactory::get('koowa:filter.email')->validate($email))
         {
             $this->setRedirect(KRequest::referrer(), JText::_('INVALID_EMAIL_ADDRESS'), 'error');
             return false;
         }
 
-        $user = KFactory::tmp('site::com.users.model.users')
+        $user = KFactory::get('com://site/users.model.users')
             ->set('email', $email)
             ->getItem();
 
@@ -39,7 +39,7 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
 			return false;
         }
 
-        $config     = KFactory::get('lib.joomla.config');
+        $config     = KFactory::get('joomla:config');
         $site_url   = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url        = $site_url.JRoute::_('index.php?option=com_users&view=login');
 

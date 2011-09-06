@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: dispatcher.php 1826 2011-06-20 23:59:59Z johanjanssens $
+ * @version		$Id: dispatcher.php 2630 2011-09-01 03:04:40Z johanjanssens $
  * @category	Nooku
  * @package		Nooku_Server
  * @subpackage	Users
@@ -21,7 +21,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
 {
     protected function _initialize(KConfig $config)
     {  
-        if(KFactory::get('lib.joomla.user')->guest) 
+        if(KFactory::get('joomla:user')->guest) 
         {  
             if(KRequest::method() == KHttpRequest::GET) 
             {
@@ -37,11 +37,11 @@ class ComUsersDispatcher extends ComDefaultDispatcher
     
     protected function _actionDispatch(KCommandContext $context)
 	{        	
-        if(!KFactory::get('lib.joomla.user')->guest) 
+        if(!KFactory::get('joomla:user')->guest) 
         {  
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'login') {
-                KFactory::get('lib.joomla.application')->redirect('index.php');
+                KFactory::get('joomla:application')->redirect('index.php');
             }
         } 
                

@@ -14,13 +14,13 @@
   * Implements a simple stack collection (LIFO) 
   * 
   * The stack is implemented as a signleton. After instantiation the object can
-  * be accessed using lib.koowa.template.stack identifier.
+  * be accessed using koowa.template.stack identifier.
   * 
   * @author     Johan Janssens <johan@nooku.org>
   * @category   Koowa
   * @package    Koowa_Template
   */
-class KTemplateStack extends KObject implements KObjectIdentifiable
+class KTemplateStack extends KObject implements KObjectIdentifiable, KObjectInstantiatable
 { 
     /**
      * The object container
@@ -53,7 +53,7 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
      *
      * @return void
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
@@ -63,7 +63,9 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
                 $config = new KConfig($config);
             }
             
-            $instance = new self($config);
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
         }
         
         return $instance;

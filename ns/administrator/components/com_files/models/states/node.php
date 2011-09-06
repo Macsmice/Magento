@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: node.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: node.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -18,30 +18,17 @@
  * @subpackage  Files
  */
 
-class ComFilesModelStateNode extends KModelState
+class ComFilesModelStateNode extends KConfigState
 {
     public function __get($name)
     {
-    	if ($name == 'id') {
-    		$name = 'path';
-    	}
-
-    	if ($name == 'identifier' && isset($this->_state[$name]) && is_string($this->_state[$name]->value)) {
-			return $this->getIdentifier();
+    	if ($name == 'container' && isset($this->_data[$name]) && is_string($this->_data[$name]->value)) {
+			$this->_data[$name]->value = KFactory::get('com://admin/files.model.containers')->id($this->_data[$name]->value)->getItem();
     	}
     	else if ($name == 'basepath') {
-    		return (string) (isset($this->_state['identifier']) ? $this->getIdentifier() : '');
+    		return (string) (isset($this->_data['container']) ? $this->container : '');
     	}
 
     	return parent::__get($name);
-    }
-
-    public function getIdentifier()
-    {
-    	if (is_string($this->_state['identifier']->value)) {
-    		$this->_state['identifier']->value = KFactory::get('admin::com.files.model.paths')->identifier($this->_state['identifier']->value)->getItem();
-    	}
-
-		return $this->_state['identifier']->value;
     }
 }

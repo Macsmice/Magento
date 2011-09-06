@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: koowa.php 2930 2011-03-17 21:37:46Z johanjanssens $
+ * @version 	$Id: koowa.php 3898 2011-09-01 02:58:09Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
@@ -19,8 +19,15 @@
  */
 class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'koowa';
+	
 	/**
-	 * The prefix
+	 * The class prefix
 	 * 
 	 * @var string
 	 */
@@ -61,14 +68,14 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 	/**
 	 * Get the path based on an identifier
 	 *
-	 * @param  object  			An Identifier object - lib.joomla.[.path].name
+	 * @param  object  			An Identifier object - joomla.[.path].name
 	 * @return string|false		Returns the path on success FALSE on failure
 	 */
 	protected function _pathFromIdentifier($identifier)
 	{
 		$path = false;
 		
-		if($identifier->type == 'lib' && $identifier->package == 'koowa')
+		if($identifier->type == 'koowa')
 		{
 			if(count($identifier->path)) {
 				$path .= implode('/',$identifier->path);

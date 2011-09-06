@@ -4,16 +4,18 @@ Files.Container = new Class({
 	Implements: [Events, Options],
 
 	options: {
-		onClickParent: $lambda,
-		onClickFolder: $lambda,
-		onClickFile: $lambda,
-		onClickImage: $lambda,
-		onDeleteNode: $lambda,
+		onClickParent: $empty,
+		onClickFolder: $empty,
+		onClickFile: $empty,
+		onClickImage: $empty,
+		onDeleteNode: $empty,
+		onSwitchLayout: $empty,
 		switcher: 'files-layout-switcher',
 		cookie: 'com.files.view.files.switcher',
 		layout: false,
 		batch_delete: false,
-		parent_button: true
+		parent_button: true,
+		types: null // null for all or array to filter for folder, file and image
 	},
 
 	initialize: function(container, options) {
@@ -39,23 +41,33 @@ Files.Container = new Class({
 		this.render();
 		this.attachEvents();
 	},
-	render: function() {
-		this.container.empty();
-		this.root = new Files.Container.Root();
-		this.root.element.injectInside(this.container);
-
-		if (this.options.parent_button) {
-			var style = this.parent_button ? this.parent_button.element.getStyle('display') : 'block';
-			this.renderParent(style);
-		}
-
-		this.renew();
-	},
 	attachEvents: function() {
 		this.createEvent('click:relay(.files-folder a.navigate)', 'clickFolder');
 		this.createEvent('click:relay(.files-file a.navigate)', 'clickFile');
 		this.createEvent('click:relay(.files-image a.navigate)', 'clickImage');
 
+		/*
+		 * Checkbox events
+		 */
+		var fireCheck = function(e) {
+			if (e.target.get('tag') == 'input') {
+				e.target.setProperty('checked', !e.target.getProperty('checked'));
+			};
+			var row = e.target.getParent('.files-node').retrieve('row');
+			var checkbox = row.element.getElement('input[type=checkbox]');
+
+			var old = checkbox.getProperty('checked');
+
+			row.checked = !old;
+			checkbox.setProperty('checked', !old);
+			
+			this.fireEvent('checkNode', row);
+		};
+		this.container.addEvent('click:relay(div[class=controls])', fireCheck.bind(this));
+		
+		/*
+		 * Delete events
+		 */
 		var deleteEvt = function(e) {
 			if (e.stop) {
 				e.stop();
@@ -65,23 +77,40 @@ Files.Container = new Class({
 			this.erase(path);
 		}.bind(this);
 
-		this.container.addEvent('click:relay(.delete-node)', deleteEvt);
-
-		this.container.addEvent('click:relay(input[type=checkbox])', function(e) {
-			var row = e.target.getParent('.files-node').retrieve('row');
-			row.checked = e.target.getProperty('checked');
-		});
-
+		this.container.addEvent('click:relay(.delete-node)', deleteEvt);		
+		
 		if (this.options.batch_delete) {
+			var chain = new Chain(),
+				chain_call = function() {
+					chain.callChain();
+				},
+				that = this;
+				
+			this.addEvent('checkNode', function(e) {
+				var checked = this.container.getElements('input[type=checkbox]:checked');
+				this.options.batch_delete.setProperty('disabled', !checked.length);
+			}.bind(this));
+				
 			this.options.batch_delete.addEvent('click', function(e) {
 				e.stop();
+				that.addEvent('deleteNode', chain_call);
+				that.addEvent('deleteNodeFail', chain_call);
+				
 				var checkboxes = this.container.getElements('input[type=checkbox].files-select');
 				checkboxes.each(function(el) {
 					if (!el.checked) {
 						return;
 					}
-					deleteEvt({target: el});
-				}.bind(this));
+					chain.chain(function() {
+						deleteEvt({target: el});
+					});
+				});
+				chain.chain(function() {
+					that.removeEvent('deleteNode', chain_call);
+					that.removeEvent('deleteNodeFail', chain_call);
+					chain.clearChain();
+				});
+				chain.callChain();
 			}.bind(this));
 		}
 
@@ -94,6 +123,8 @@ Files.Container = new Class({
 				that.setLayout(value);
 				that.render();
 				Cookie.write(that.options.cookie, value);
+				
+				that.fireEvent('switchLayout', value);
 			});
 		}
 	},
@@ -116,8 +147,23 @@ Files.Container = new Class({
 				this.fireEvent('deleteNode', [node]);
 				this.nodes.erase(node.path);
 			}.bind(this);
-			node['delete'](success);
+			var failure = function() {
+				this.fireEvent('deleteNodeFail', [node]);
+			}.bind(this);
+			node['delete'](success, failure);
 		}
+	},
+	render: function() {
+		this.container.empty();
+		this.root = new Files.Container.Root();
+		this.root.element.injectInside(this.container);
+
+		if (this.options.parent_button) {
+			var style = this.parent_button ? this.parent_button.element.getStyle('display') : 'block';
+			this.renderParent(style);
+		}
+
+		this.renew();
 	},
 	renderParent: function(style) {
 		this.parent_button = new Files.Container.Parent();
@@ -127,7 +173,8 @@ Files.Container = new Class({
 			this.parent_button.element.setStyle('display', style);
 		}
 
-		this.parent_button.element.getElements('a').addEvent('click', function() {
+		this.parent_button.element.getElements('a').addEvent('click', function(e) {
+			e.stop();
 			this.fireEvent('clickParent', arguments);
 		}.bind(this));
 	},
@@ -199,10 +246,24 @@ Files.Container = new Class({
 		}
 	},
 	insert: function(object, position) {
-		this.renderObject(object, position);
-		this.nodes.set(object.path, object);
+		if (!this.options.types || this.options.types.contains(object.type)) {
+			this.renderObject(object, position);
+			this.nodes.set(object.path, object);
 
-		this.fireEvent('insertNode', [object]);
+			this.fireEvent('insertNode', [object]);
+		}
+	},
+	/**
+	 * Insert multiple rows, possibly coming from a JSON request
+	 */
+	insertRows: function(rows) {
+		$each(rows, function(row) {
+			var cls = Files[row.type.capitalize()];
+			var item = new cls(row);
+			this.insert(item, 'last');
+		}.bind(this));
+		
+		this.fireEvent('afterInsertRows', rows);
 	},
 	renew: function() {
 		var folders = this.getFolders(),
@@ -227,12 +288,13 @@ Files.Container = new Class({
 		}.bind(this));
 	},
 	setLayout: function(layout) {
-		if (['icons', 'details', 'image'].contains(layout)) {
+		if (layout) {
 			Files.Template.layout = layout;
 			if (this.options.switcher) {
 				this.options.switcher.set('value', layout);
 			}
 		}
+
 	},
 	getFolders: function() {
 		return this.nodes.filter(function(node) {

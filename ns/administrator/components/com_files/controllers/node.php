@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: node.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: node.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -25,7 +25,7 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 		$config->append(array(
 			'persistable' => false,
 			'request'     => array(
-				'identifier' => 'files.files'
+				'container' => 'com_files.files'
 			)
 		));
 
@@ -36,10 +36,21 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	{
 		$request = parent::getRequest();
 
-		KFactory::get('admin::com.files.model.configs')
+		KFactory::get('com://admin/files.model.configs')
 			->set($request)
 			->getItem();
 
 		return $request;
 	}
+
+	protected function _actionGet(KCommandContext $context)
+    {
+        //Load the language file for HMVC requests who are not routed through the dispatcher
+        if(!$this->isDispatched()) {
+            KFactory::get('joomla:language')->load('com_'.$this->getIdentifier()->package);
+        }
+
+        $result = $this->getView()->display();
+	    return $result;
+    }
 }

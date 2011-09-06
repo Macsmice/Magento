@@ -1,6 +1,6 @@
 <?php
 /**
- * @version      $Id: cascadable.php 1746 2011-06-14 21:47:06Z johanjanssens $
+ * @version      $Id: cascadable.php 2626 2011-09-01 03:03:23Z johanjanssens $
  * @category	 Nooku
  * @package      Nooku_Server
  * @subpackage   Categories
@@ -49,9 +49,9 @@ class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
                 $package = $name;
         }
                  
-        $identifier = 'admin::com.'.$package.'.model.'.$name;
+        $identifier = 'com://admin/'.$package.'.model.'.$name;
         
-        $rowset = KFactory::tmp($identifier)
+        $rowset = KFactory::get($identifier)
                     ->category($this->id)
                     ->limit(0)
                     ->getList();

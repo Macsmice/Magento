@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: folders.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: folders.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -14,12 +14,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <? foreach($folders as $folder): ?>
 	<li>
 		<a href="#/<?= $folder->path; ?>" title="<?= $folder->path; ?>">
-			<span class="icon"></span>
 			<!--id:<?= $folder->path; ?>-->
 			<?= $folder->name; ?>
 		</a>
-	<? if (count($folder->children)): ?>
-		<?= @template('folders', array('folders' => $folder->children, 'id' => false)); ?>
+	<? if ($folder->hasChildren()): ?>
+		<?= @template('folders', array('folders' => $folder->getChildren(), 'id' => false)); ?>
 	<? endif; ?>
 	</li>
 <? endforeach; ?>

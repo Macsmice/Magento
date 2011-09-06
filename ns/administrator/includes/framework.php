@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: framework.php 813 2011-04-04 23:45:54Z johanjanssens $
+ * @version     $Id: framework.php 2633 2011-09-01 03:05:09Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -71,4 +71,4 @@ KIdentifier::registerApplication('site' , JPATH_SITE);
 KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
 
 //Koowa : setup factory mappings
-KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');
+KFactory::map('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');

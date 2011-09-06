@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: stream.php 3719 2011-07-22 13:38:21Z johanjanssens $
+ * @version		$Id: stream.php 3757 2011-08-16 13:28:09Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Template
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.

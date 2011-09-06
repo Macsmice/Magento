@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblinks.php 1391 2011-05-20 21:50:43Z johanjanssens $
+ * @version		$Id: weblinks.php 2631 2011-09-01 03:04:50Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -18,8 +18,8 @@
  * @subpackage  Weblinks
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_weblinks', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!KFactory::get('joomla:user')->authorize( 'com_weblinks', 'manage' )) {
+	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-echo KFactory::get('admin::com.weblinks.dispatcher')->dispatch();
+echo KFactory::get('com://admin/weblinks.dispatcher')->dispatch();

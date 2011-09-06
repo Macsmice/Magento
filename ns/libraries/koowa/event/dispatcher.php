@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: dispatcher.php 3494 2011-06-16 21:41:03Z johanjanssens $
+ * @version     $Id: dispatcher.php 3824 2011-09-01 02:17:54Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Event
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -15,7 +15,7 @@
  * @category    Koowa
  * @package     Koowa_Event
  */
-class KEventDispatcher extends KObject
+class KEventDispatcher extends KObject implements KObjectIdentifiable
 {
     /**
 	 * An associative array of event listeners queues 
@@ -45,6 +45,17 @@ class KEventDispatcher extends KObject
 	    
 	    $this->_listeners = array();
 	}
+	
+ 	/**
+     * Get the object identifier
+     * 
+     * @return  KIdentifier 
+     * @see     KObjectIdentifiable
+     */
+    public function getIdentifier()
+    {
+        return $this->_identifier;
+    }
 	
  	/**
      * Dispatches an event by dispatching arguments to all listeners that handle

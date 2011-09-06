@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: link.php 2876 2011-03-07 22:19:20Z johanjanssens $
+ * @version     $Id: link.php 3865 2011-09-01 02:41:57Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -36,7 +36,7 @@ class ComDefaultTemplateFilterLink extends KTemplateFilterLink
         $relValue = $attribs['rel'];
         unset($attribs['rel']);
             
-        KFactory::get('lib.joomla.document')
+        KFactory::get('joomla:document')
             ->addHeadLink($link, $relValue, $relType, $attribs);
     }
 }

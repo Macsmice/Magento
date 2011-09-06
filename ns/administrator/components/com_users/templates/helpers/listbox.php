@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: listbox.php 1631 2011-06-07 19:07:13Z johanjanssens $
+ * @version		$Id: listbox.php 2630 2011-09-01 03:04:40Z johanjanssens $
  * @category	Nooku
  * @package		Nooku_Server
  * @subpackage	Users
@@ -19,17 +19,6 @@
  */
 class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
-    public function groups($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array('selected' => 0));
-
-        $acl    = KFactory::get('lib.joomla.acl');
-        $tree   = $acl->get_group_children_tree(null, 'USERS', false);
-
-        return JHTML::_('select.genericlist', $tree, 'users_group_id', 'size="10"', 'value', 'text', $config->selected);
-    }
-
     public function users($config = array())
     {
         $config = new KConfig($config);
@@ -38,7 +27,7 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		    'prompt'	=> '- Select -'
 		));
 
-		$list = KFactory::tmp('admin::com.users.model.users')
+		$list = KFactory::get('com://admin/users.model.users')
 		    ->set('sort', 'name')
 		    ->set('limit', 0)
 		    ->getList();

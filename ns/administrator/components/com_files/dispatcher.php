@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: dispatcher.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: dispatcher.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -26,7 +26,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
 	 */
 	public function _actionForward(KCommandContext $context)
 	{
-		if(KRequest::type() == 'FLASH') {
+		if(KRequest::type() == 'FLASH' || KRequest::format() == 'json') {
 			$context->result = $this->getController()->execute('display', $context);
 		} else {
 			parent::_actionForward($context);

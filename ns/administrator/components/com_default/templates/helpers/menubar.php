@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: menubar.php 3723 2011-08-06 11:23:01Z johanjanssens $
+ * @version     $Id: menubar.php 3757 2011-08-16 13:28:09Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default

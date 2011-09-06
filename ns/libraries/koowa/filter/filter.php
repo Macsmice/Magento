@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: filter.php 2913 2011-03-17 00:25:49Z johanjanssens $
+* @version		$Id: filter.php 3836 2011-09-01 02:28:17Z johanjanssens $
 * @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -55,10 +55,10 @@ class KFilter
 		try 
 		{
 			if(is_string($filter) && strpos($filter, '.') === false ) {
-				$filter = 'com.default.filter.'.trim($filter);
+				$filter = 'com:default.filter.'.trim($filter);
 			} 
 			
-			$filter = KFactory::tmp($filter, $config);
+			$filter = KFactory::get($filter, $config);
 			
 		} catch(KFactoryAdapterException $e) {
 			throw new KFilterException('Invalid filter: '.$filter);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: nodes.php 1713 2011-06-10 21:26:34Z johanjanssens $
+ * @version     $Id: nodes.php 2527 2011-08-22 23:20:22Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -27,7 +27,7 @@ class ComArticlesDatabaseRowsetNodes extends KDatabaseRowsetAbstract implements 
      */
 	public function hasChildren()
 	{
-		return current($this->_data)->hasChildren();
+		return current($this->_object_set)->hasChildren();
 	}
 
 	/**
@@ -56,10 +56,13 @@ class ComArticlesDatabaseRowsetNodes extends KDatabaseRowsetAbstract implements 
     {
     	foreach($list as $k => $row)
 		{
-		    //Create a row prototype and clone it this is faster then instanciating a new row
-			$instance = $this->getRow()
-							->setData($row)
-							->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
+		    $options = array(
+            	'data'   => $row,
+                'status' => $new ? NULL : KDatabase::STATUS_LOADED,
+                'new'    => $new,   
+            );
+		    
+		    $instance = $this->getRow($options);
 
         	if(isset($row['path']) && !empty($row['path']))
         	{

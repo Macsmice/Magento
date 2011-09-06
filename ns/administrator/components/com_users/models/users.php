@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: users.php 2459 2011-08-08 19:36:05Z tomjanssens $
+ * @version		$Id: users.php 2588 2011-08-24 10:34:00Z johanjanssens $
  * @category	Nooku
  * @package		Nooku_Server
  * @subpackage	Users
@@ -29,14 +29,14 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		parent::__construct($config);
 
         $this->_state
-        	->insert('activation'  , 'md5', null, true)
-            ->insert('email'       , 'email', null, true)
-            ->insert('username'    , 'alnum', null, true)
-            ->insert('group_name'  , 'string')
-            ->insert('group'       , 'int')
-            ->insert('enabled'     , 'int')
-            ->insert('never_visited', 'int')
-            ->insert('logged_in'   , 'int');
+        	->insert('activation'   , 'md5', null, true)
+            ->insert('email'        , 'email', null, true)
+            ->insert('username'     , 'alnum', null, true)
+            ->insert('group_name'   , 'string')
+            ->insert('group'        , 'int')
+            ->insert('enabled'      , 'int')
+            ->insert('visited'      , 'int')
+            ->insert('loggedin'     , 'int');
 	}
 
 	/**
@@ -51,6 +51,10 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 
 	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS logged_in');
 	    $query->select('IF(tbl.block = 1, 0, 1) AS enabled');
+	    
+	    if($this->_state->loggedin) {
+	        $query->select(array('session.client_id AS loggedin_client_id', 'session.time AS loggedin_on', 'session.session_id AS loggedin_session_id'));
+	    }
 	}
 
 	/**
@@ -61,7 +65,13 @@ class ComUsersModelUsers extends ComDefaultModelDefault
      */
 	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-	    $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
+	    $state = $this->_state;
+	    
+	    if($state->loggedin) {
+			$query->join('RIGHT', 'session AS session', 'tbl.id = session.userid');
+        } else {
+            $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
+        }
 	}
 
 	/**
@@ -87,17 +97,23 @@ class ComUsersModelUsers extends ComDefaultModelDefault
         	$query->where('tbl.block', '=', $this->_state->enabled);
         }
         
-        if(is_numeric($this->_state->logged_in)) {
+        if(is_numeric($this->_state->loggedin)) {
         	$query->where('session.session_id', '!=', 'null');
         }
         
-        if(is_numeric($this->_state->never_visited)) {
-        	$query->where('lastvisitDate', '=', '0000-00-00 00:00:00');
+        if(is_numeric($this->_state->visited))
+        {  
+            if(!$this->_state->visited) {
+        	    $query->where('lastvisitDate', '=', '0000-00-00 00:00:00');
+            } else {
+                $query->where('lastvisitDate', '!=', '0000-00-00 00:00:00');
+            }
         }
 
-	    if($this->_state->search) {
+	    if($this->_state->search) 
+	    {
             $query->where('name', 'LIKE', '%'.$this->_state->search.'%')
-                ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
+                  ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
         }
 	}
 }

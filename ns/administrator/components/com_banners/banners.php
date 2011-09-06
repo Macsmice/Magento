@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: banners.php 1379 2011-05-20 21:09:32Z johanjanssens $
+ * @version     $Id: banners.php 2625 2011-09-01 03:03:10Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Banners
@@ -18,8 +18,8 @@
  * @subpackage  Banners    
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_banners', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!KFactory::get('joomla:user')->authorize( 'com_banners', 'manage' )) {
+	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-echo KFactory::get('admin::com.banners.dispatcher')->dispatch();
+echo KFactory::get('com://admin/banners.dispatcher')->dispatch();

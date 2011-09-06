@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: nodes.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: nodes.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,37 +15,70 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesModelNodes extends ComFilesModelDefault
 {
 	public function getList()
 	{
-		if (!isset($this->_list)) 
+		if (!isset($this->_list))
 		{
 			$state = $this->_state;
-			$type = !empty($state->type) ? (array) $state->type : array();
+			$type = !empty($state->types) ? (array) $state->types : array();
 
-			$list = KFactory::tmp('admin::com.files.database.rowset.nodes');
+			$list = KFactory::get('com://admin/files.database.rowset.nodes');
 
-			if (empty($type) || in_array('folder', $type)) 
+			// Special case for limit=0. We set it to -1
+			// so loop goes on till end since limit is a negative value
+			$limit_left = $state->limit ? $state->limit : -1;
+			$offset_left = $state->offset;
+			$total = 0;
+
+			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = KFactory::tmp('admin::com.files.model.folders')->set($state->getData())->getList();
+				$folders = KFactory::get('com://admin/files.model.folders')->set($state->getData())
+					->limit(0)->offset(0)->getList();
 				foreach ($folders as $folder) {
+					if (!$limit_left) {
+						break;
+					}
+					if ($offset_left) {
+						$offset_left--;
+						continue;
+					}
 					$list->insert($folder);
+					$limit_left--;
 				}
+
+				$total += count($folders);
 			}
 
-			if (empty($type) || (in_array('file', $type) || in_array('image', $type))) 
+
+			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
-				$files = KFactory::tmp('admin::com.files.model.files')->set($state->getData())->getList();
+				$files = KFactory::get('com://admin/files.model.files')->set($state->getData())
+					->limit(0)->offset(0)->getList();
+
 				foreach ($files as $file) {
+					if (!$limit_left) {
+						break;
+					}
+					if ($offset_left) {
+						$offset_left--;
+						continue;
+					}
 					$list->insert($file);
+					$limit_left--;
 				}
+
+				$total += count($files);
 			}
 
-			$this->_total = count($list);
+			$this->_total = $total;
+
+			//$list = array_slice($list, $state->offset, $state->limit ? $state->limit : $this->_total);
+
 			$this->_list = $list;
 		}
 

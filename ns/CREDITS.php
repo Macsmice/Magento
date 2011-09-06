@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: CREDITS.php 2126 2011-07-01 00:06:43Z johanjanssens $
+ * @version		$Id: CREDITS.php 2159 2011-07-11 13:08:23Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)

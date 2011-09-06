@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: executable.php 1962 2011-06-24 20:24:43Z johanjanssens $
+ * @version     $Id: executable.php 2630 2011-09-01 03:04:40Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -21,14 +21,14 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 {  
     public function canLogout()
     {
-        $userid = KFactory::get('lib.joomla.user')->id;
+        $userid = KFactory::get('joomla:user')->id;
         
         //Allow logging out ourselves
         if($this->getModel()->getState()->id === $userid) {
              return true;
         }
         
-        if(KFactory::get('lib.joomla.user')->get('gid') > 24) {
+        if(KFactory::get('joomla:user')->get('gid') > 24) {
             return true;
         }
         

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: config.php 3477 2011-06-14 19:32:33Z johanjanssens $
+ * @version		$Id: config.php 3801 2011-08-27 15:20:12Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Config
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -54,7 +54,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         $array = array();
         foreach ($this->_data as $key => $value) 
         {
-            if ($value instanceof KConfig) {
+            if ($value instanceof KConfig || $value instanceof stdClass) {
                 $array[$key] = clone $value;
             } else {
                 $array[$key] = $value;

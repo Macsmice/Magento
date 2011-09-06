@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: callback.php 3571 2011-06-23 03:17:57Z johanjanssens $
+ * @version		$Id: callback.php 3808 2011-08-28 15:04:38Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Mixin
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.

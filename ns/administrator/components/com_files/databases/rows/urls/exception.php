@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: config.php 1845 2011-06-21 22:22:23Z ercanozkaya $
+ * @version     $Id: exception.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files

@@ -1,6 +1,6 @@
 <?php 
 /**
- * @version     $Id: default.php 1992 2011-06-26 16:27:18Z johanjanssens $
+ * @version     $Id: default.php 2470 2011-08-11 09:24:14Z JohnBell $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Sections
@@ -14,7 +14,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">	
-	<input type="hidden" name="scope" value="<?= $state->scope;?>" />
 	<?= @template('default_filter'); ?>
 	<table class="adminlist">
 		<thead>

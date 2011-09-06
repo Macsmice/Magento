@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: abstract.php 3618 2011-06-26 16:02:37Z johanjanssens $
+ * @version		$Id: abstract.php 3851 2011-09-01 02:36:10Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_View
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -21,7 +21,7 @@
 abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 {
 	/**
-	 * Model identifier (APP::com.COMPONENT.model.NAME)
+	 * Model identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -149,7 +149,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		        $this->setModel($this->_model);
 			}
 		  
-		    $this->_model = KFactory::tmp($this->_model);
+		    $this->_model = KFactory::get($this->_model);
 		}
 
 		return $this->_model;

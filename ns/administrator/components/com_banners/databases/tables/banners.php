@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: banners.php 1797 2011-06-19 21:15:19Z tomjanssens $
+ * @version     $Id: banners.php 2625 2011-09-01 03:03:10Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Banners
@@ -23,7 +23,7 @@ class ComBannersDatabaseTableBanners extends KDatabaseTableDefault
     public function _initialize(KConfig $config)
     {
         $sluggable = KDatabaseBehavior::factory('sluggable', array('columns' => array('name')));
-        $orderable = $this->getBehavior('admin::com.categories.database.behavior.orderable', array('parent_column' => 'catid'));
+        $orderable = $this->getBehavior('com://admin/categories.database.behavior.orderable', array('parent_column' => 'catid'));
 
         $config->append(array(
             'identity_column'    => 'bid',

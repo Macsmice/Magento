@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: default.php 2725 2010-10-28 01:54:08Z johanjanssens $
+ * @version		$Id: default.php 3906 2011-09-01 16:24:32Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Table
@@ -17,7 +17,24 @@
  * @package     Koowa_Database
  * @subpackage  Table
  */
-class KDatabaseTableDefault extends KDatabaseTableAbstract
+class KDatabaseTableDefault extends KDatabaseTableAbstract implements KObjectInstantiatable
 {
-
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDatabaseTableDefault
+     */
+    public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
 }

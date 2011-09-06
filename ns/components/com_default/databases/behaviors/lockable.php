@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: lockable.php 3036 2011-03-30 22:43:47Z johanjanssens $
+ * @version     $Id: lockable.php 3860 2011-09-01 02:39:37Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -31,7 +31,7 @@ class ComDefaultDatabaseBehaviorLockable extends KDatabaseBehaviorLockable
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'lifetime'   =>  KFactory::get('lib.joomla.session')->getExpire()
+            'lifetime'   =>  KFactory::get('joomla:session')->getExpire()
         ));
         
         parent::_initialize($config);

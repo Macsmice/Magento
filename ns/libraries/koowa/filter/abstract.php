@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: abstract.php 3663 2011-06-28 12:31:32Z johanjanssens $
+* @version		$Id: abstract.php 3918 2011-09-04 14:17:38Z johanjanssens $
 * @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -33,6 +33,13 @@ abstract class KFilterAbstract implements KFilterInterface
 	protected $_walk = true;
 	
 	/**
+     * The object identifier
+     *
+     * @var KIdentifierInterface
+     */
+    protected $_identifier;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param 	object	An optional KConfig object with configuration options
@@ -56,6 +63,36 @@ abstract class KFilterAbstract implements KFilterInterface
     protected function _initialize(KConfig $config)
     {
     	//do nothing
+    }
+    
+	/**
+     * Get the object identifier
+     * 
+     * @return  KIdentifier 
+     * @see     KObjectIdentifiable
+     */
+    public function getIdentifier()
+    {
+        return $this->_identifier;
+    }
+    
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDatabaseTableDefault
+     */
+    public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
     }
 	
 	/**

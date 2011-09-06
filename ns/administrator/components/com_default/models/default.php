@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: default.php 2876 2011-03-07 22:19:20Z johanjanssens $
+ * @version     $Id: default.php 3875 2011-09-01 02:46:50Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -30,6 +30,6 @@ class ComDefaultModelDefault extends KModelDefault
         parent::__construct($config);
 
         // Set the static states
-        $this->_state->limit = KFactory::get('lib.joomla.application')->getCfg('list_limit');
+        $this->_state->limit = KFactory::get('joomla:application')->getCfg('list_limit');
     }
 }

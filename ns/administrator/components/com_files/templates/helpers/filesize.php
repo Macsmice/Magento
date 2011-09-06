@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: filesize.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: filesize.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files

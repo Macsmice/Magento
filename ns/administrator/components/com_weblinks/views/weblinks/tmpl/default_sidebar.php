@@ -1,6 +1,6 @@
 <?
 /**
- * @version		$Id: default_sidebar.php 1794 2011-06-19 16:39:46Z tomjanssens $
+ * @version		$Id: default_sidebar.php 2631 2011-09-01 03:04:50Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -13,5 +13,5 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <div id="sidebar">
 	<h3><?= @text('Categories') ?></h3>
-	<?= @template('admin::com.categories.view.categories.list', array('categories' => KFactory::tmp('admin::com.categories.model.categories')->section('com_weblinks')->sort('title')->getList())); ?>
+	<?= @template('com://admin/categories.view.categories.list', array('categories' => KFactory::get('com://admin/categories.model.categories')->section('com_weblinks')->sort('title')->getList())); ?>
 </div>

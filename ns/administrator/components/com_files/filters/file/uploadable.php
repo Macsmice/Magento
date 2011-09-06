@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: uploadable.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: uploadable.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -26,12 +26,12 @@ class ComFilesFilterFileUploadable extends KFilterAbstract
 	{
 		parent::__construct($config);
 
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.name'), KCommand::PRIORITY_HIGH);
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.exists'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::get('com://admin/files.filter.file.name'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::get('com://admin/files.filter.file.exists'), KCommand::PRIORITY_HIGH);
 
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.extension'));
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.mimetype'));
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.size'));
+		$this->addFilter(KFactory::get('com://admin/files.filter.file.extension'));
+		$this->addFilter(KFactory::get('com://admin/files.filter.file.mimetype'));
+		$this->addFilter(KFactory::get('com://admin/files.filter.file.size'));
 	}
 
 	protected function _validate($context)

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: commandable.php 3624 2011-06-26 16:16:56Z johanjanssens $
+ * @version		$Id: commandable.php 3855 2011-09-01 02:37:21Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Controller
  * @subpackage	Command
@@ -20,7 +20,7 @@
 class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 {  
 	/**
-	 * Toolbar object or identifier (APP::com.COMPONENT.model.NAME)
+	 * Toolbar object or identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -74,7 +74,7 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 			    'controller' => $this->getMixer()
 			);
 			
-			$this->_toolbar = KFactory::tmp($this->_toolbar, $config);
+			$this->_toolbar = KFactory::get($this->_toolbar, $config);
 		}    
          
         return $this->_toolbar;

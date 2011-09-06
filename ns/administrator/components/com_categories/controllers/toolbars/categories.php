@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: categories.php 2100 2011-06-29 23:56:52Z johanjanssens $
+ * @version     $Id: categories.php 2457 2011-08-08 17:52:17Z JohnBell $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories
@@ -34,10 +34,6 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
 		$view	 = KInflector::singularize($this->_identifier->name);
 		$section = $this->getController()->getModel()->get('section');
 		
-        $command->append(array(
-            'attribs' => array(
-                'href'     => JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&section='.$section )
-            )
-        ));
+        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&section='.$section ); 
     }
 }

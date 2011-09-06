@@ -1,6 +1,6 @@
 <?php
 /**
-* @version      $Id: abstract.php 3679 2011-07-10 11:38:59Z johanjanssens $
+* @version      $Id: abstract.php 3682 2011-07-11 13:07:26Z johanjanssens $
 * @category		Koowa
 * @package		Koowa_Controller
 * @subpackage 	Toolbar

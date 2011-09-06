@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: plugin.php 3023 2011-03-29 11:10:34Z johanjanssens $
+ * @version 	$Id: plugin.php 3900 2011-09-01 02:58:41Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
@@ -19,8 +19,15 @@
  */
 class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'plg';
+	
 	/**
-	 * The prefix
+	 * The class prefix
 	 * 
 	 * @var string
 	 */
@@ -36,29 +43,26 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 	{	
 		$path = false; 
 		
-		if (strpos($classname, $this->_prefix) === 0) 
-		{	
-			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
-			$parts = explode('_', $word);
+		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
+		$parts = explode('_', $word);
 			
-			if (array_shift($parts) == 'plg') 
-			{	
-				$type = array_shift($parts);
+		if (array_shift($parts) == 'plg') 
+		{	
+			$type = array_shift($parts);
 				
-				if(count($parts) > 1) {
-					$path = array_shift($parts).'/'.implode('/', $parts);
-				} else {
-					$path = array_shift($parts);
-				}
-					
-			    //Plugins can have their own folder
-		        if (is_file($this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php')) {
-				    $path = $this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php';
-			    } else {
-				    $path = $this->_basepath.'/plugins/'.$type.'/'.$path.'.php';
-			    }
+			if(count($parts) > 1) {
+				$path = array_shift($parts).'/'.implode('/', $parts);
+			} else {
+				$path = array_shift($parts);
 			}
-		}
+					
+            //Plugins can have their own folder
+		    if (is_file($this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php')) {
+		        $path = $this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php';
+			} else {
+	            $path = $this->_basepath.'/plugins/'.$type.'/'.$path.'.php';
+			}
+	    }
 		
 		return $path;
 		

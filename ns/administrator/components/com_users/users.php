@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: users.php 1154 2011-05-11 12:57:46Z johanjanssens $
+ * @version		$Id: users.php 2630 2011-09-01 03:04:40Z johanjanssens $
  * @category	Nooku
  * @package		Nooku_Server
  * @subpackage	Users
@@ -18,8 +18,8 @@
  * @subpackage  Sections    
  */
 
-//if (!KFactory::get('lib.joomla.user')->authorize( 'com_users', 'manage' )) {
-//	KFactory::get('lib.koowa.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+//if (!KFactory::get('joomla:user')->authorize( 'com_users', 'manage' )) {
+//	KFactory::get('koowa:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 //}
 
-echo KFactory::get('admin::com.users.dispatcher')->dispatch();
+echo KFactory::get('com://admin/users.dispatcher')->dispatch();

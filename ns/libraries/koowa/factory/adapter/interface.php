@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id: interface.php 2725 2010-10-28 01:54:08Z johanjanssens $
+ * @version 	$Id: interface.php 3834 2011-09-01 02:27:28Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage 	Adapter
@@ -16,7 +16,7 @@
  * @package     Koowa_Factory
  * @subpackage 	Adapter
  */
-interface KFactoryAdapterInterface extends KCommandInterface
+interface KFactoryAdapterInterface
 {
 	/**
 	 * Create an object instance based on a class identifier
@@ -26,4 +26,11 @@ interface KFactoryAdapterInterface extends KCommandInterface
 	 * @return 	object|false 	Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, KConfig $config);
+	
+	/**
+	 * Get the type
+	 *
+	 * @return string	Returns the type
+	 */
+	public function getType();
 }

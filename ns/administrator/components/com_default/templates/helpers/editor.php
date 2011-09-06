@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: editor.php 3574 2011-06-23 13:42:44Z johanjanssens $
+ * @version     $Id: editor.php 3884 2011-09-01 02:48:59Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -42,7 +42,7 @@ class ComDefaultTemplateHelperEditor extends KTemplateHelperAbstract
             'options'   => array()
         ));
 
-        $editor  = KFactory::get('lib.joomla.editor', array($config->editor));
+        $editor  = KFactory::get('joomla:editor', array($config->editor));
         $options = KConfig::toData($config->options);
 
         if (version_compare(JVERSION, '1.6.0', 'ge')) { 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: form.php 1991 2011-06-26 16:27:07Z johanjanssens $
+ * @version     $Id: form.php 2470 2011-08-11 09:24:14Z JohnBell $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Sections
@@ -17,7 +17,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
-	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 
 	<div class="grid_8">

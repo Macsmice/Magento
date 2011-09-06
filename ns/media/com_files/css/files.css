@@ -1,11 +1,25 @@
+/* Joomla Specific Styling */
+#element-box #sidebar {
+	float: left;
+	width: 20%;
+}
+
+#element-box #files-canvas {
+	float: right;
+	width: 79%;
+	border: 1px solid #CCC;
+}
+
+/* --- End --- */
+
 #treeview {
 	overflow: auto;
 	/*height: 390px;*/
 	border: 0;
 }
 
-#files-canvas {
-
+#files-container {
+	min-height: 218px;
 }
 
 #files-canvas .path {
@@ -26,11 +40,6 @@
 	width: 65%;
 	background-color: #F7F7F7;
 	border: 0 none;
-	font-size: 12px;
-}
-
-#files-canvas input#foldername {
-	width: 20%;
 	font-size: 12px;
 }
 
@@ -75,16 +84,12 @@
 /**
  * Upload Widget CSS
  */
-#upload  { 
+#files-upload  { 
 	background-color: #F7F7F7;
 	border-top: 1px solid #E1E1E1;
 }
 
-#upload-flash {
-
-}
-
-#upload-flash h3 {
+#files-upload h3 {
 	padding: 15px 0 0 15px;
 	margin: 0;
 	display: block;
@@ -319,4 +324,15 @@ ul#files-tree-html li a#current:hover {
 
 ul#files-tree-html ul li a {
 	padding-left: 20px;
+}
+
+#files-pathway {
+	display: inline;
+}
+.files-pathway-separator:before, #files-new-folder:before {
+	content: " ► ";
+}
+
+#files-pathway, #files-new-folder-input {
+font-size: 12px;
 }

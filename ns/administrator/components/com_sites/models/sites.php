@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: sites.php 1756 2011-06-15 15:27:08Z johanjanssens $
+ * @version     $Id: sites.php 2652 2011-09-01 21:36:51Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Sites
@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Sites   
  */
-class ComSitesModelSites extends KModelAbstract
+class ComSitesModelSites extends KModelAbstract implements KObjectInstantiatable
 {	
      public function __construct(KConfig $config)
      {
@@ -30,8 +30,21 @@ class ComSitesModelSites extends KModelAbstract
              ->insert('sort'      , 'cmd')
              ->insert('direction' , 'word', 'asc')
              ->insert('search'    , 'string');
-        }
+    }
     
+    public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
     
     public function getList()
     { 
@@ -69,7 +82,7 @@ class ComSitesModelSites extends KModelAbstract
                 $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
                         
-            $this->_list = KFactory::tmp('admin::com.sites.database.rowset.sites', array('data' => $data));
+            $this->_list = KFactory::get('com://admin/sites.database.rowset.sites', array('data' => $data));
         }
         
         return $this->_list;
@@ -82,10 +95,5 @@ class ComSitesModelSites extends KModelAbstract
         }
         
         return $this->_total;
-    }
-    
-    public function getColumn($column)
-    {   
-        return $this->getList();
     }
 }

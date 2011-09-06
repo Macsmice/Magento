@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: json.php 2074 2011-06-28 13:19:44Z ercanozkaya $
+ * @version     $Id: json.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files

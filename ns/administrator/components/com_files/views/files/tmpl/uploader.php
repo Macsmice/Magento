@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: uploader.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: uploader.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -10,157 +10,103 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<style src="media://com_files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+
+<script src="media://com_files/plupload/plupload.js" />
+<script src="media://com_files/plupload/plupload.html5.js" />
+<script src="media://com_files/plupload/plupload.html4.js" />
+<script src="media://com_files/plupload/plupload.flash.js" />
+
+<script src="media://com_files/plupload/jquery-1.6.2.min.js" />
+<script src="media://com_files/plupload/jquery.plupload.queue/jquery.plupload.queue.js" />
+
 <script>
-(function() {
+jQuery.noConflict();
 
-var uploader_details = {
-	config: {
-		url: '<?= JRoute::_('index.php?option=com_files&view=file&format=json&'.JFactory::getSession()->getName().'='.JFactory::getSession()->getId(), false); ?>',
-		path: 'media://system/swf/uploader.swf',
-		typeFilter: {
-			'<?= $allowed_extensions; ?>': '<?= $allowed_extensions; ?>'
+window.addEvent('domready', function() { 
+	var element = jQuery('#files-upload-multi');
+	 
+	element.pluploadQueue({
+		runtimes: 'html5,flash,html4',
+		browse_button: 'pickfiles',
+		dragdrop: true,
+		rename: true,
+		max_file_size: <?= $maxsize ?>,
+		url: 'index.php?option=com_files&view=file&format=json&container=<?= $state->container->id; ?>',
+		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
+		urlstream_upload: true, // required for flash
+		<? if ($allowed_extensions): ?>
+		filters: [
+			{title: '<?= @text('All files'); ?>', extensions: "<?= implode(',', $allowed_extensions) ?>"}
+		],
+		<? endif; ?>
+		multipart_params: {
+			_token: '<?= JUtility::getToken(); ?>'
 		},
-		token: '<?= JUtility::getToken(); ?>'
-	}
-};
+		headers: {
+			'X-Requested-With': 'xmlhttprequest'
+		}
+	});
 
-window.addEvent('domready', function() {
+	var uploader = element.pluploadQueue();
 
-	var web = document.id('upload-toggle-web');
-	var web_form = document.id('upload-web');
+	uploader.bind('BeforeUpload', function(uploader) {
+		// set directory in the request
+		uploader.settings.multipart_params.parent = Files.app.getPath();
+	});
+	
+	uploader.bind('UploadComplete', function(uploader) {
+		jQuery('li.plupload_delete a,div.plupload_buttons', element).show();
+	});
 
-	web_form.setStyle('display', 'none');
-	web.addEvent('click', function(e) {
+	uploader.bind('FileUploaded', function(uploader, file, response) {
+		var json = JSON.decode(response.response, true) || {};
+		if (json.status) {
+			var item = json.item;
+			var cls = Files[item.type.capitalize()];
+			var row = new cls(item);
+
+			Files.app.container.insert(row);
+			Files.app.fireEvent('uploadFile', [row]);
+		} else {
+			var error = json.error ? json.error : 'Unknown error';
+			alert(error);
+		}
+	});
+
+	$$('.plupload_clear').addEvent('click', function(e) {
 		e.stop();
-		web_form.setStyle('display', 'block');
+
+		// need to work on a clone, otherwise iterator gets confused after elements are removed
+		var files = uploader.files.slice(0);
+		files.each(function(file) {
+			uploader.removeFile(file);
+		});
 	});
 
-	var toggleButtons = function(status) {
-		var start = document.id('upload-start');
-		var clear = document.id('upload-clear');
-
-		$$(start, clear).setStyle('display', status ? 'block' : 'none');
-		if (status) {
-			web_form.setStyle('display', 'none');
-		}
-		web.set('disabled', status);
-	};
-
-	Files.uploader = new Files.Uploader(document.id('upload-progress'), document.id('upload-queue'), {
-		fileClass: Files.Uploader.File,
-		url: uploader_details.config.url+'&identifier='+Files.identifier,
-		method: 'post',
-		data: {
-			'parent': Files.app.getPath(),
-			'action': 'add',
-			'_token': uploader_details.config.token
-		},
-		path: uploader_details.config.path,
-		typeFilter: uploader_details.config.typeFilter,
-		target: 'upload-browse',
-
-		onBeforeStart: function() {
-			this.options.data.parent = Files.app.getPath();
-			this.setOptions({data: this.options.data});
-		},
-		onLoad: function() {
-			document.id('upload-flash').setStyle('display', 'block');
-			document.id('upload-noflash').setStyle('display', 'none');
-
-			toggleButtons(false);
-			document.id('upload-web').setStyle('display', 'none');
-
-			// We relay the interactions with the overlayed flash to the link
-			this.target.addEvents({
-				click: function() {
-					return false;
-				},
-				mouseenter: function() {
-					this.addClass('hover');
-				},
-				mouseleave: function() {
-					this.removeClass('hover');
-					this.blur();
-				},
-				mousedown: function() {
-					this.focus();
-				}
-			});
-
-			document.id('upload-clear').addEvent('click', function() {
-				this.status.setStyle('display', 'none');
-				Files.uploader.remove();
-				return false;
-			}.bind(this));
-
-			document.id('upload-start').addEvent('click', function() {
-				this.status.setStyle('display', 'block');
-				Files.uploader.start();
-				return false;
-			}.bind(this));
-		},
-		onQueue: function() {
-			if (this.fileList.length == 0) {
-				toggleButtons(false);
-			}
-			else {
-				toggleButtons(true);
-			}
-		},
-		/**
-		 * Is called when files were not added, "files" is an array of invalid File classes.
-		 *
-		 * This example creates a list of error elements directly in the file list, which
-		 * hide on click.
-		 */
-		onSelectFail: function(files) {
-			files.each(function(file) {
-				var li = new Element('li', {
-					'class': 'validation-error',
-					html: file.validationErrorMessage || file.validationError,
-					title: MooTools.lang.get('FancyUpload', 'removeTitle'),
-					events: {
-						click: function() {
-							this.destroy();
-						}
-					}
-				}).inject(this.list, 'top');
-				new Element('a', {
-					href: '#',
-					text: '[x]',
-					events: {
-						click: function(e) {
-							e.stop();
-							this.getParent().dispose();
-						}
-					}
-				}).inject(li);
-
-
-			}, this);
-		},
-
-		onFileSuccess: function(file, response) {
-			var json = JSON.decode(response, true) || {};
-			if (json.status) {
-				file.element.addClass('file-success');
-				file.info.set('html', 'Image was uploaded');
-				var el = json.item;
-				var cls = Files[el.type.capitalize()];
-				var row = new cls(el);
-				Files.app.container.insert(row);
-				this.fireEvent('uploadFile', [row]);
-			} else {
-				file.element.addClass('file-failed');
-				var error = json.error ? json.error : 'Unknown error';
-				file.info.set('html', '<strong>An error occurred:</strong> ' + error);
-			}
-		}
-	});
+	Files.app.uploader = uploader;
 });
 
-})();
 
+/**
+ * Switcher between uploaders
+ */
+window.addEvent('domready', function() {
+	var toggleForm = function(type) {
+		$$('.upload-form').setStyle('display', 'none');
+		document.id('files-uploader-'+type).setStyle('display', 'block');
+	};
+	
+	$$('.upload-form-toggle').addEvent('click', function(e) {
+		e.stop();
+		toggleForm(this.get('data-type'));
+	});
+	toggleForm('computer');
+});
+
+/**
+ * Remote file form
+ */
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm');
 	var request = new Request.JSON({
@@ -172,7 +118,7 @@ window.addEvent('domready', function() {
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.container.insert(row);
-				this.fireEvent('uploadFile', [row]);
+				Files.app.fireEvent('uploadFile', [row]);
 				form.reset();
 			} else {
 				var error = json.error ? json.error : 'Unknown error';
@@ -190,42 +136,31 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<div id="upload">
-	<form action="<?= @route('view=file') ?>" method="post" name="adminForm" id="uploadForm" enctype="multipart/form-data">
-		<fieldset id="upload-noflash" class="actions">
-			<input type="file" id="file-upload" name="file" />
-			<input type="hidden" class="file-basepath" name="parent" />
-			<input type="submit" id="file-upload-submit" value="<?= @text('Start Upload'); ?>"/>
-			<input type="hidden" name="action" value="save" />
-		</fieldset>
-	</form>
-	<div id="upload-flash" class="hide">
+
+
+<div id="files-upload" style="clear: both">
+	<div id="files-upload-controls">
 		<h3><?= @text('Upload') ?>:</h3>
 		<ul class="upload-buttons">
-			<li><button id="upload-browse"><?= @text('Computer'); ?></button></li>
-			<li><button id="upload-toggle-web"><?= @text('Web'); ?></button></li>
+			<li><button class="upload-form-toggle" data-type="computer"><?= @text('Computer'); ?></button></li>
+			<li><button class="upload-form-toggle" data-type="web"><?= @text('Web'); ?></button></li>
 		</ul>
 		<p id="upload-max">
 			<?= @text('Max'); ?>
-			<?= @helper('admin::com.files.template.helper.filesize.humanize', array('size' => $maxsize))?>
+			<?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => $maxsize))?>
 		</p>
-		<div id="upload-progress" style="display: none">
-			<img src="media://com_files/images/bar.gif" alt="<?= @text('Current Progress'); ?>" class="progress current-progress" />
-			<img src="media://com_files/images/bar.gif" alt="<?= @text('Overall Progress'); ?>" class="progress overall-progress" />
-			<p class="overall-title"></p>
-			<div class="current-text"></div>
-			<div class="current-title"></div>
-		</div>
-		<table class="upload-queue" id="upload-queue"  cellpadding="0" cellspacing="0">
-		</table>
-		<ul class="upload-buttons">
-			<li><button id="upload-clear"><?= @text('Clear List'); ?></button></li>
-			<li><button id="upload-start"><?= @text('Start Upload'); ?></button></li>
-		</ul>
 	</div>
 	<div class="clr"></div>
-	<div id="upload-web">
-		<form action="<?= @route('view=file&format=json&identifier='.$state->identifier->identifier) ?>" method="post" name="remoteForm" id="remoteForm" >
+	<div id="files-uploader-computer" class="upload-form" style="display: none">
+		
+		<div style="clear: both"></div>
+		
+		<div id="files-upload-multi"></div>
+
+	</div>
+	<div class="clr"></div>
+	<div id="files-uploader-web" class="upload-form">
+		<form action="<?= @route('view=file&format=json&container='.$state->container->id) ?>" method="post" name="remoteForm" id="remoteForm" >
 			<fieldset class="actions adminform">
 				<table class="admintable">
 					<tr>

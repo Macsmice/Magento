@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: abstract.php 3681 2011-07-11 13:02:19Z johanjanssens $
+ * @version		$Id: abstract.php 3822 2011-09-01 02:16:26Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Dispatcher
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -21,7 +21,7 @@
 abstract class KDispatcherAbstract extends KControllerAbstract
 {
 	/**
-	 * Controller object or identifier (APP::com.COMPONENT.controller.NAME)
+	 * Controller object or identifier (com://APP/COMPONENT.controller.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -85,7 +85,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			    'dispatched'   => true	
         	);
         	
-			$this->_controller = KFactory::tmp($this->_controller, $config);
+			$this->_controller = KFactory::get($this->_controller, $config);
 		}
 	
 		return $this->_controller;
@@ -161,7 +161,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		{
 			if($redirect = $this->getController()->getRedirect())
 			{
-			    KFactory::get('lib.joomla.application')
+			    KFactory::get('joomla:application')
 					->redirect($redirect['url'], $redirect['message'], $redirect['type']);
 			}
 		}

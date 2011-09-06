@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: html.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: html.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -32,29 +32,24 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 	{
 		$state = $this->getModel()->getState();
 
-		$folders = KFactory::tmp('admin::com.files.controller.folder')
-			->identifier($state->identifier)
+		$folders = KFactory::get('com://admin/files.controller.folder')
+			->container($state->container)
 			->tree(true)
 			->browse();
 
 		$this->assign('folders', $folders);
 
-		$config = KFactory::get('admin::com.files.database.row.config');
+		$config = KFactory::get('com://admin/files.model.configs')->getItem();
 
 		// prepare an extensions array for fancyupload
 		$extensions = $config->upload_extensions;
-		if(!empty($extensions))
-		{
-			foreach ($extensions as &$ext) {
-				$ext = '*.'.$ext;
-			}
-			$str = implode('; ', $extensions);
-		}
-		else $str = '*.*';
 
-		$this->assign('allowed_extensions', $str);
+		$this->assign('allowed_extensions', $extensions);
 		$this->assign('maxsize'           , $config->upload_maxsize);
-		$this->assign('path'              , $state->identifier->relative_path);
+		$this->assign('path'              , $state->container->relative_path);
+		$this->assign('sitebase'          , ltrim(JURI::root(true), '/'));
+		$this->assign('token'             , JUtility::getToken());
+		$this->assign('session'           , JFactory::getSession());
 
 		if (!$this->editor) {
 			$this->assign('editor', '');

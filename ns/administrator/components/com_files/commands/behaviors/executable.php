@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: authorize.php 1829 2011-06-21 01:59:15Z johanjanssens $
+ * @version     $Id: executable.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -28,10 +28,10 @@ class ComFilesControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 
 	protected function _authorize()
 	{
-		$minimum = KFactory::get('admin::com.files.database.row.config')->allowed_media_usergroup;
+		$minimum = KFactory::get('com://admin/files.model.configs')->getItem()->allowed_media_usergroup;
 		$minimum = isset(self::$_group_map[$minimum]) ? self::$_group_map[$minimum] : 18;
 
-		$result = KFactory::get('lib.joomla.user')->get('gid') >= $minimum;
+		$result = KFactory::get('joomla:user')->get('gid') >= $minimum;
 
 		return $result;
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: path.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: path.php 860 2011-08-12 11:18:55Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesFilterPath extends KFilterAbstract
@@ -33,7 +33,7 @@ class ComFilesFilterPath extends KFilterAbstract
     protected function _validate($value)
     {
         $value = trim(str_replace('\\', '/', $value));
-        
+
         return (is_string($value) && (preg_match(self::$pattern, $value)) == 1);
     }
 

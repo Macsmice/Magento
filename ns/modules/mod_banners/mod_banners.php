@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mod_banners.php 1382 2011-05-20 21:14:31Z johanjanssens $
+ * @version     $Id: mod_banners.php 2641 2011-09-01 03:06:44Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Banners
@@ -18,10 +18,9 @@
  * @subpackage  Banners
  */
 
-KLoader::load('site::com.banners.mappings');
+KLoader::load('com://site/banners.mappings');
 
-echo KFactory::tmp('site::mod.banners.view', array(
-    'params'  => $params,
-    'module'  => $module,
-    'attribs' => $attribs
-))->display();
+echo KFactory::get('mod://site/banners.html')
+    	->module($module)
+    	->attribs($attribs)
+    	->display();

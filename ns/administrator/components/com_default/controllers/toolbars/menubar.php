@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   	$Id: menubar.php 3640 2011-06-26 23:00:39Z johanjanssens $
+ * @version   	$Id: menubar.php 3754 2011-08-11 12:54:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -40,4 +40,38 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
         
         return $this;
     }
+
+    /**
+	 * Get the list of commands
+	 *
+	 * Will attempt to use information from the xml manifest if possible
+	 *
+	 * @return  array
+	 */
+	public function getCommands()
+	{
+	    $name     = $this->getController()->getIdentifier()->name;
+	    $package  = $this->_identifier->package;
+	    $manifest = JPATH_ADMINISTRATOR.'/components/com_'.$package.'/manifest.xml';
+
+	    if(file_exists($manifest))
+	    {
+	        $xml = simplexml_load_file($manifest);
+	        
+	        if(isset($xml->administration->submenu)) 
+	        {
+	            foreach($xml->administration->submenu->children() as $menu)
+	            {
+	                $view = (string)$menu['view'];
+	                
+	                $this->addCommand(JText::_((string)$menu), array(
+	            		'href'   => JRoute::_('index.php?option=com_'.$package.'&view='.$view),
+	            		'active' => ($name == KInflector::singularize($view))
+	                ));
+	            }
+	        }
+	    }
+	
+	    return parent::getCommands();   
+	}
 }

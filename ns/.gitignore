@@ -1,26 +1,12 @@
-# IGNORE LIST LOCAL PROJECT FILES #
-###################################
-nbproject
-.DS_Store
+# SVN files #
+#############
+
 .svn
 
-# IGNORE LIST NS #
-######################
-ns/tmp/*
-!ns/tmp/index.html
-ns/cache/*
-!ns/cache/index.html
-ns/logs/*
-!ns/logs/index.html
-ns/administrator/cache/*
-!ns/administrator/cache/index.html
-ns/configuration.php
 
-# IGNORE LIST MAGENTO #
-#######################
-app/etc/local.xml
-var/*
-downloader/.cache/
-media/catalog/product/cache/*
-media/tmp/*
-media/catalog/*
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db

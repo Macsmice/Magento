@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: newsfeeds.php 1813 2011-06-20 20:51:36Z ercanozkaya $
+ * @version     $Id: newsfeeds.php 2628 2011-09-01 03:03:57Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Newsfeeds
@@ -23,7 +23,7 @@ class ComNewsfeedsDatabaseTableNewsfeeds extends KDatabaseTableDefault
     public function _initialize(KConfig $config)
     {
          $sluggable = $this->getBehavior('sluggable', array('columns' => array('name')));
-        $orderable = $this->getBehavior('admin::com.categories.database.behavior.orderable', array('parent_column' => 'catid'));
+        $orderable = $this->getBehavior('com://admin/categories.database.behavior.orderable', array('parent_column' => 'catid'));
 
          $config->append(array(
             'identity_column'    => 'id',

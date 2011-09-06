@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: extension.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: extension.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesFilterFileExtension extends KFilterFilename
@@ -33,7 +33,7 @@ class ComFilesFilterFileExtension extends KFilterFilename
 
 	protected function _initialize(KConfig $config)
 	{
-		$component_config = KFactory::get('admin::com.files.database.row.config');
+		$component_config = KFactory::get('com://admin/files.model.configs')->getItem();
 
 		$allowed = array_map('strtolower', $component_config->upload_extensions);
 		$ignored = array_map('strtolower', $component_config->ignore_extensions);

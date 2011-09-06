@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: versions.php 671 2010-10-27 03:52:20Z johanjanssens $
+ * @version		$Id: versions.php 868 2011-09-01 03:06:59Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Versions
@@ -18,4 +18,4 @@
  * @subpackage 	Versions
  */
 
-echo KFactory::get('admin::com.versions.dispatcher')->dispatch();
+echo KFactory::get('com://admin/versions.dispatcher')->dispatch();

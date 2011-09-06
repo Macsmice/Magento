@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: url.php 3576 2011-06-23 14:54:45Z johanjanssens $
+ * @version     $Id: url.php 3838 2011-09-01 02:28:52Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Http
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -27,7 +27,7 @@
  *     // Create a url object;
  *    
  *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
- *     $url = KFactory::get('lib.koowa.http.url', array('url' => $url) );
+ *     $url = KFactory::get('koowa:http.url', array('url' => $url) );
  * 
  *     // the $ur properties are ...
  *     // 

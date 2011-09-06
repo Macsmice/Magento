@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: articles.php 2100 2011-06-29 23:56:52Z johanjanssens $
+ * @version     $Id: articles.php 2346 2011-07-21 14:00:16Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -30,12 +30,7 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  ->addUnpublish()
                  ->addSeparator()
                  ->addArchive()
-                 ->addUnarchive()
-                 ->addSeparator()
-                 ->addModal(array(
-                    'label' => 'Preferences',
-                 	'href' => 'index.php?option=com_config&controller=component&component=com_articles')
-                 );
+                 ->addUnarchive();
         }    
         else 
         {

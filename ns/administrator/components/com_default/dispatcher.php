@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: dispatcher.php 3630 2011-06-26 16:39:14Z johanjanssens $
+ * @version     $Id: dispatcher.php 3910 2011-09-01 21:34:45Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherDefault
+class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstantiatable
 { 
     /**
      * Initializes the options for the object
@@ -35,6 +35,28 @@ class ComDefaultDispatcher extends KDispatcherDefault
         if($config->request->view) {
             $config->controller = $config->request->view;
         }
+    }
+    
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDispatcherDefault
+     */
+    public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+              
+            //Add the factory map to allow easy access to the singleton
+            KFactory::map('dispatcher', $config->identifier);
+        }
+        
+        return $instance;
     }
     
     /**
@@ -56,9 +78,10 @@ class ComDefaultDispatcher extends KDispatcherDefault
         if(!KRequest::has('get.view')) 
         {
             $url = clone(KRequest::url());
-            $url->query['view'] = $this->getController()->getView()->getName();
+            $url->query['option'] = 'com_'.$this->getIdentifier()->package;
+            $url->query['view']   = $this->getController()->getView()->getName();
            
-            KFactory::get('lib.joomla.application')->redirect($url);
+            KFactory::get('joomla:application')->redirect($url);
         }
        
         return parent::_actionDispatch($context);
@@ -74,10 +97,10 @@ class ComDefaultDispatcher extends KDispatcherDefault
         $view = $this->getController()->getView();
         
         //Set the document mimetype
-        KFactory::get('lib.joomla.document')->setMimeEncoding($view->mimetype);
+        KFactory::get('joomla:document')->setMimeEncoding($view->mimetype);
         
         //Disabled the application menubar
-        if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
+        if($this->getController()->isEditable() && KInflector::isSingular($view->getName())) {
             KRequest::set('get.hidemainmenu', 1);
         } 
    

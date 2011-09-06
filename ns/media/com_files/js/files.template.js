@@ -22,7 +22,7 @@ Files.Template.Details = new Class({
 			var str = '<table><tbody>'+html+'</tbody></table>';
 			return new Element('div', {html: str}).getElement('tr');
 		}
-		
+
 	}
 });
 
@@ -32,7 +32,7 @@ Files.Template.Icons = new Class({
 	}
 });
 
-Files.Template.Image = new Class({
+Files.Template.Compact = new Class({
 	initialize: function(html) {
 		return new Element('div', {html: html}).getFirst();
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version      $Id: script.php 3692 2011-07-14 11:07:29Z johanjanssens $
+* @version      $Id: script.php 3694 2011-07-14 22:06:20Z johanjanssens $
 * @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter

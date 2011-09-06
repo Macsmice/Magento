@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: login.php 2142 2011-07-05 13:28:23Z ercanozkaya $
+ * @version     $Id: login.php 2639 2011-09-01 03:06:25Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -39,7 +39,7 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
             'password' => KRequest::get('post.password', 'raw')
         );
 
-        $result = KFactory::get('lib.joomla.application')->login($credentials, $options);
+        $result = KFactory::get('joomla:application')->login($credentials, $options);
 
         if(!JError::isError($result))
         {

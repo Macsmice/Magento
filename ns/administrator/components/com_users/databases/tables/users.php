@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: users.php 2092 2011-06-29 12:57:25Z ercanozkaya $
+ * @version		$Id: users.php 2114 2011-06-30 18:23:45Z johanjanssens $
  * @category	Nooku
  * @package		Nooku_Server
  * @subpackage	Users

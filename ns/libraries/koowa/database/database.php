@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: database.php 3526 2011-06-20 01:58:08Z johanjanssens $
+ * @version		$Id: database.php 3706 2011-07-19 18:04:55Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Database
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -20,11 +20,11 @@ class KDatabase
 	/**
 	 * Database operations
 	 */
-	const OPERATION_SELECT = 1;
-	const OPERATION_INSERT = 2;
-	const OPERATION_UPDATE = 4;
-	const OPERATION_DELETE = 8;
-	const OPERATION_SHOW   = 16;
+	const OPERATION_SELECT = 'select';
+	const OPERATION_INSERT = 'insert';
+	const OPERATION_UPDATE = 'update';
+	const OPERATION_DELETE = 'delete';
+	const OPERATION_SHOW   = 'show';
 
 	/**
 	 * Database result mode

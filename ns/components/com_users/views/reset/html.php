@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: html.php 862 2011-04-08 01:34:13Z johanjanssens $
+ * @version     $Id: html.php 2639 2011-09-01 03:06:25Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
@@ -23,12 +23,12 @@ class ComUsersViewResetHtml extends ComDefaultViewHtml
     {
         $this->parameters = $this->getParameters();
 		
-        KFactory::get('lib.joomla.document')->setTitle($this->parameters->get('page_title')); 
+        KFactory::get('joomla:document')->setTitle($this->parameters->get('page_title')); 
         return parent::display();
     }
     
     public function getParameters()
     {
-         return KFactory::get('lib.joomla.application')->getParams();
+         return KFactory::get('joomla:application')->getParams();
     }
 }

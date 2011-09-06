@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: command.php 2876 2011-03-07 22:19:20Z johanjanssens $
+ * @version		$Id: command.php 3691 2011-07-14 00:17:04Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Command
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -102,7 +102,7 @@ class KCommand extends KObject implements KCommandInterface
     }
     
     /**
-     * Get the priority of a behavior
+     * Get the priority of the command
      *
      * @return  integer The command priority
      */

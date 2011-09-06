@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: html.php 1295 2011-05-16 22:58:08Z johanjanssens $
+ * @version		$Id: html.php 2643 2011-09-01 03:07:12Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -21,7 +21,7 @@ class ComWeblinksViewCategoriesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		$params = KFactory::get('lib.joomla.application')->getParams();
+		$params = KFactory::get('joomla:application')->getParams();
 
 		// Build the image, if set
 		if ($params->get('image') != -1)

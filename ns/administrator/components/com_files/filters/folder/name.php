@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: name.php 2437 2011-08-05 13:50:18Z ercanozkaya $
+ * @version     $Id: name.php 870 2011-09-01 03:10:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -15,10 +15,8 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
-
-Kloader::load('lib.joomla.filesystem.folder');
 
 class ComFilesFilterFolderName extends KFilterAbstract
 {
@@ -36,6 +34,6 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _sanitize($value)
 	{
-		return JFolder::makeSafe($value);
+		return KFactory::get('com://admin/files.filter.path')->sanitize($value);
 	}
 }

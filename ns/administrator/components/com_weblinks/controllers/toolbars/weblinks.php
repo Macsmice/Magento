@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblinks.php 2100 2011-06-29 23:56:52Z johanjanssens $
+ * @version		$Id: weblinks.php 2346 2011-07-21 14:00:16Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -23,12 +23,7 @@ class ComWeblinksControllerToolbarWeblinks extends ComDefaultControllerToolbarDe
     {
         $this->addSeparator()
 			 ->addEnable()
-			 ->addDisable()
-			 ->addSeparator()
-			 ->addModal(array(
-			    'label' => 'Preferences',
-			 	'href' => 'index.php?option=com_config&controller=component&component=com_weblinks')
-			 );
+			 ->addDisable();
 			 
 	    return parent::getCommands();
     }
