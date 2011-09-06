@@ -57,16 +57,16 @@ if (get_magic_quotes_gpc()) {
  * @deprecated
  * @param string $class
  */
-function __autoload($class)
-{
-    if (defined('COMPILER_INCLUDE_PATH')) {
-        $classFile = $class.'.php';
-    } else {
-        $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
-    }
-
-    include($classFile);
-}
+//function __autoload($class)
+//{
+//    if (defined('COMPILER_INCLUDE_PATH')) {
+//        $classFile = $class.'.php';
+//    } else {
+//        $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
+//    }
+//
+//    include($classFile);
+//}
 
 /**
  * Object destructor

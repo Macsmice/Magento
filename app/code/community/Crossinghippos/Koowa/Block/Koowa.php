@@ -42,7 +42,8 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
 
         define('_JEXEC',1); //Quick Fool Joomla loaded
 
-        define('JPATH_ROOT','/Users/babsgosgens/Sites/magento1.6/ns');
+
+        define('JPATH_ROOT','/Users/babsgosgens/Sites/magento1.6/nstrunk');
         define('JPATH_LIBRARIES',JPATH_ROOT.'/libraries');
         define('JPATH_BASE',JPATH_ROOT);
         define('JPATH_SITE',JPATH_ROOT);
@@ -50,6 +51,7 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         define('JPATH_IMAGES', JPATH_ROOT.'/images');
         define('DS', '/');
 
+        require_once(JPATH_LIBRARIES.'/loader.php');
         require_once(JPATH_ROOT.'/libraries/koowa/koowa.php');
         require_once(JPATH_ROOT.'/libraries/koowa/loader/loader.php');
 
@@ -75,11 +77,13 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         KRequest::root(KRequest::base());
 
         //Set factory identifier aliasses
-        KFactory::map('koowa:database.adapter.mysqli','com://admin/default.database.adapter.mysqli');
+//        KFactory::map('koowa:database.adapter.mysqli','com://admin/default.database.adapter.mysqli');
+        KFactory::map('lib.koowa.database.adapter.mysqli','admin::com.default.database.adapter.mysqli');
 
-        var_dump(KFactory::get('mod://site/banners.html'));
+        var_dump(KFactory::get('lib.joomla.user'));
 
-
-        KFactory::get('com://admin/articles.model.articles')->display(); // test some output
+//        var_dump(KFactory::get('mod://site/banners.html'));
+//        KFactory::get('com://admin/articles.model.articles')->display(); // test some output
+        KFactory::get('admin::com.articles.model.articles'); // test some output
     }
 }
