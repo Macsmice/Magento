@@ -36,9 +36,7 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
     public function getView()
     {
         $_helper = $this->getHelper('Crossinghippos_Koowa_Helper_Koowa');
-
         var_dump($_helper->getKoowaObject());
-
 
         error_reporting(E_ALL); //Quick debug problems.
 
@@ -48,7 +46,7 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         define('JPATH_LIBRARIES',JPATH_ROOT.'/libraries');
         define('JPATH_BASE',JPATH_ROOT);
         define('JPATH_SITE',JPATH_ROOT);
-        define('JPATH_ADMINISTRATOR',JPATH_ROOT.'/administrator/');
+        define('JPATH_ADMINISTRATOR',JPATH_ROOT.'/administrator');
         define('JPATH_IMAGES', JPATH_ROOT.'/images');
         define('DS', '/');
 
@@ -81,18 +79,6 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.database.adapter.mysqli','admin::com.default.database.adapter.mysqli');
 
-        var_dump(KFactory::get('site::com.banners.controller.banner'));
-        //echo KFactory::get('site::com.pol.dispatcher')->dispatch();
-
-
-
+        KFactory::get('admin::com.articles.controller.articles')->display(); // test some output
     }
 }
-
-/*
- *
- *
-
- *
- *
- */
