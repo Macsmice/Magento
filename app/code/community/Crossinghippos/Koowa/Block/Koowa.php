@@ -42,7 +42,7 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
 
         define('_JEXEC',1); //Quick Fool Joomla loaded
 
-        define('JPATH_ROOT','ns');
+        define('JPATH_ROOT','/Users/babsgosgens/Sites/magento1.6/ns');
         define('JPATH_LIBRARIES',JPATH_ROOT.'/libraries');
         define('JPATH_BASE',JPATH_ROOT);
         define('JPATH_SITE',JPATH_ROOT);
@@ -50,21 +50,19 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         define('JPATH_IMAGES', JPATH_ROOT.'/images');
         define('DS', '/');
 
-        require(JPATH_ROOT.'/libraries/koowa/koowa.php');
-        require(JPATH_ROOT.'/libraries/koowa/loader/loader.php');
+        require_once(JPATH_ROOT.'/libraries/koowa/koowa.php');
+        require_once(JPATH_ROOT.'/libraries/koowa/loader/loader.php');
 
         //Setup the loader
         KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-
-        //KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
+        KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
         KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
         KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
         KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
 
         //Setup the factory
         KFactory::addAdapter(new KFactoryAdapterKoowa());
-
-        //KFactory::addAdapter(new KFactoryAdapterJoomla());
+        KFactory::addAdapter(new KFactoryAdapterJoomla());
         KFactory::addAdapter(new KFactoryAdapterModule());
         KFactory::addAdapter(new KFactoryAdapterPlugin());
         KFactory::addAdapter(new KFactoryAdapterComponent());
@@ -80,14 +78,6 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         KFactory::map('koowa:database.adapter.mysqli','com://admin/default.database.adapter.mysqli');
 
         var_dump(KFactory::get('mod://site/banners.html'));
-        die;
-//KFactory::map('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');
-
-//- koowa:controller.service
-//- joomla:document
-//- com://admin/articles.model.articles
-//- mod://site/banners.html
-//- plg:system.koowa
 
 
         KFactory::get('com://admin/articles.model.articles')->display(); // test some output
