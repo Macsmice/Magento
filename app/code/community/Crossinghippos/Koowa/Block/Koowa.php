@@ -77,13 +77,11 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         KRequest::root(KRequest::base());
 
         //Set factory identifier aliasses
-//        KFactory::map('koowa:database.adapter.mysqli','com://admin/default.database.adapter.mysqli');
-        KFactory::map('lib.koowa.database.adapter.mysqli','admin::com.default.database.adapter.mysqli');
+        KFactory::map('koowa:database.adapter.mysqli','com://admin/default.database.adapter.mysqli');
 
-        var_dump(KFactory::get('lib.joomla.user'));
+        var_dump(KFactory::get('joomla:user'));
 
 //        var_dump(KFactory::get('mod://site/banners.html'));
-//        KFactory::get('com://admin/articles.model.articles')->display(); // test some output
-        KFactory::get('admin::com.articles.model.articles'); // test some output
+        KFactory::get('com://admin/articles.model.articles'); // test some output
     }
 }
