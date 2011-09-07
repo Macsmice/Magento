@@ -41,47 +41,18 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         error_reporting(E_ALL); //Quick debug problems.
 
         define('_JEXEC',1); //Quick Fool Joomla loaded
+        define('JPATH_BASE','/Users/babsgosgens/Sites/magento1.6/ns');
+        define('JPATH_LIBRARIES',JPATH_BASE.'/libraries');
 
+        require_once(JPATH_LIBRARIES.'/joomla/environment/request.php');
+        require_once(JPATH_LIBRARIES.'/joomla/version.php');
 
-        define('JPATH_ROOT','/Users/babsgosgens/Sites/magento1.6/ns');
-        define('JPATH_LIBRARIES',JPATH_ROOT.'/libraries');
-        define('JPATH_BASE',JPATH_ROOT);
-        define('JPATH_SITE',JPATH_ROOT);
-        define('JPATH_ADMINISTRATOR',JPATH_ROOT.'/administrator');
-        define('JPATH_IMAGES', JPATH_ROOT.'/images');
-        define('DS', '/');
+        require_once(JPATH_BASE.'/includes/defines.php');
+        require_once(JPATH_BASE.'/includes/framework.php');
 
-        require_once(JPATH_LIBRARIES.'/loader.php');
-        require_once(JPATH_ROOT.'/libraries/koowa/koowa.php');
-        require_once(JPATH_ROOT.'/libraries/koowa/loader/loader.php');
+        JFactory::getApplication('site')->initialise();
 
-        //Setup the loader
-        KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-        KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
-        KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
-        KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-        KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
-
-        //Setup the factory
-        KFactory::addAdapter(new KFactoryAdapterKoowa());
-        KFactory::addAdapter(new KFactoryAdapterJoomla());
-        KFactory::addAdapter(new KFactoryAdapterModule());
-        KFactory::addAdapter(new KFactoryAdapterPlugin());
-        KFactory::addAdapter(new KFactoryAdapterComponent());
-
-        //Setup the identifier application paths
-        KIdentifier::registerApplication('site' , JPATH_SITE);
-        KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
-
-        //Setup the request
-        KRequest::root(KRequest::base());
-
-        //Set factory identifier aliasses
-        KFactory::map('koowa:database.adapter.mysqli','com://admin/default.database.adapter.mysqli');
-
-        var_dump(KFactory::get('joomla:user'));
-
-//        var_dump(KFactory::get('mod://site/banners.html'));
-        KFactory::get('com://admin/articles.model.articles'); // test some output
+        $articles = KFactory::get('com://admin/articles.model.articles'); // test some output
+        var_dump($articles->getList()->getData());
     }
 }
