@@ -50,7 +50,8 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
         require_once(JPATH_BASE.'/includes/defines.php');
         require_once(JPATH_BASE.'/includes/framework.php');
 
-        JFactory::getApplication('site')->initialise();
+        $mainframe &= JFactory::getApplication('site');
+        $mainframe->initialise();
 
         $articles = KFactory::get('com://admin/articles.model.articles'); // test some output
         var_dump($articles->getList()->getData());
