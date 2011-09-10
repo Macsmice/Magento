@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Koowa
+ *
+ * @package		Crossinghippos_Nookuserver
+ * @author		Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
+ * @copyright   Copyright (c) 2011 Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
+ * @license		Open Software License
+ */
+-->
+<config>
+
+    <modules>
+        <Crossinghippos_Nookuserver>
+            <version>0.1</version>
+        </Crossinghippos_Nookuserver>
+    </modules>
+
+    <frontend>
+        <routers>
+            <nookuserver>
+                <use>standard</use>
+                <args>
+                    <module>Crossinghippos_Nookuserver</module>
+                    <frontName>Nookuserver</frontName>
+                </args>
+            </nookuserver>
+        </routers>
+        <layout>
+            <updates>
+                <nookuserver>
+                    <file>nookuserver.xml</file>
+                </nookuserver>
+            </updates>
+        </layout>
+    </frontend>
+
+    <global>
+        <models>
+            <nookuserver>
+                <class>Crossinghippos_Nookuserver_model</class>
+            </nookuserver>
+        </models>
+        <resources>
+
+        </resources>
+        <blocks>
+            <nookuserver>
+                <class>Crossinghippos_Nookuserver_Block</class>
+            </nookuserver>
+        </blocks>
+        <helpers>
+            <nookuserver>
+                <class>Crossinghippos_Nookuserver_Helper</class>
+            </nookuserver>
+        </helpers>
+    </global>
+
+</config>

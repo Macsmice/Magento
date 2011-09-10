@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Implements Koowa for use in Magento
+ * Implements Nooku Server for use in Magento
  *
- * @package		Crossinghippos_Koowa
+ * @package		Crossinghippos_Nookuserver
  * @author		Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
  * @copyright   Copyright (c) 2011 Babs Gösgens/Crossing Hippos (https://crossinghippos.com)
  * @license		Open Software License
@@ -11,9 +11,9 @@
 -->
 <config>
     <modules>
-        <Crossinghippos_Koowa>
+        <Crossinghippos_Nookuserver>
             <active>true</active>
             <codePool>community</codePool>
-        </Crossinghippos_Koowa>
+        </Crossinghippos_Nookuserver>
     </modules>
 </config>

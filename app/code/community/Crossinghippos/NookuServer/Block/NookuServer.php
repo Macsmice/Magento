@@ -8,7 +8,7 @@
  * @copyright   Copyright (c) 2011 Crossing Hippos (http://crossinghippos.nk)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
+class CrossingHippos_NookuServer_Block_NookuServer extends Mage_Core_Block_Template
 {
 
     protected $_state = array();
@@ -35,7 +35,7 @@ class Crossinghippos_Koowa_Block_Koowa extends Mage_Core_Block_Template
 
     public function getView()
     {
-        $_helper = $this->getHelper('Crossinghippos_Koowa_Helper_Koowa');
+        $_helper = $this->getHelper('CrossingHippos_NookuServer_Helper_NookuServer');
         var_dump($_helper->getKoowaObject());
 
         error_reporting(E_ALL); //Quick debug problems.
