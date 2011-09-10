@@ -33,13 +33,33 @@ class Crossinghippos_NookuServer_Block_Koowa extends Mage_Core_Block_Template
         return (bool) $this->_getData('state');
     }
 
-    public function getView()
+    public function setModelData()
     {
-        $_helper = $this->getHelper('CrossingHippos_NookuServer_Helper_NookuServer');
-        var_dump($_helper->getKoowaObject());
+        $model = Mage::getModel('nookuserver/koowa');
 
-        $articles = KFactory::get('com://admin/articles.model.articles'); // test some output
-        var_dump($articles->getList()->getData());
+        $model->initKoowaObject($this->_getData('identifier'));
+        $model->setKoowaState($this->_state);
+
+        return $model;
+    }
+
+    public function getModelData()
+    {
+        return Mage::getModel('nookuserver/koowa')->getData();
+    }
+
+    public function getRenderedView()
+    {
+        $model = $this->setModelData();
+//        $model->getKoowaObject()->display();
+
+
+
+//        $_helper = $this->getHelper('CrossingHippos_NookuServer_Helper_NookuServer');
+//        var_dump($_helper->getKoowaObject());
+//
+//        $articles = KFactory::get('com://admin/articles.model.articles'); // test some output
+//        var_dump($articles->getList()->getData());
 
     }
 }

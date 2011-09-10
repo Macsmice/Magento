@@ -23,10 +23,17 @@ class Crossinghippos_Nookuserver_IndexController extends Mage_Core_Controller_Fr
         $this->renderLayout();
     }
 
+    /**
+     * Load Nooku Server
+     *
+     * @return void
+     */
     private function __includeNookuserver()
     {
         if(!Mage::registry('ns')) {
+
             define('_JEXEC',1); //Quick Fool Joomla loaded
+
             define('JPATH_BASE','/Users/babsgosgens/Sites/magento1.6/ns');
             define('JPATH_LIBRARIES',JPATH_BASE.'/libraries');
 
