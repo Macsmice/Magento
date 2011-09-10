@@ -38,21 +38,6 @@ class Crossinghippos_NookuServer_Block_Koowa extends Mage_Core_Block_Template
         $_helper = $this->getHelper('CrossingHippos_NookuServer_Helper_NookuServer');
         var_dump($_helper->getKoowaObject());
 
-        error_reporting(E_ALL); //Quick debug problems.
-
-        define('_JEXEC',1); //Quick Fool Joomla loaded
-        define('JPATH_BASE','/Users/babsgosgens/Sites/magento1.6/ns');
-        define('JPATH_LIBRARIES',JPATH_BASE.'/libraries');
-
-        require_once(JPATH_LIBRARIES.'/joomla/environment/request.php');
-        require_once(JPATH_LIBRARIES.'/joomla/version.php');
-
-        require_once(JPATH_BASE.'/includes/defines.php');
-        require_once(JPATH_BASE.'/includes/framework.php');
-
-        $mainframe =& JFactory::getApplication('site');
-        $mainframe->initialise();
-
         $articles = KFactory::get('com://admin/articles.model.articles'); // test some output
         var_dump($articles->getList()->getData());
 
