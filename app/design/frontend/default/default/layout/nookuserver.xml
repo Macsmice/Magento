@@ -13,7 +13,7 @@
 
     <nookuserver_index_index>
         <reference name="content">
-            <block type="nookuserver/nookuserver" name="koowa" template="nookuserver/koowa.phtml">
+            <block type="nookuserver/koowa" name="koowa" template="nookuserver/koowa.phtml">
                 <action method="setIdentifier"><string>site::com.content.view.articles</string></action>
                 <action method="setState"><type>limit</type><value>5</value></action>
             </block>

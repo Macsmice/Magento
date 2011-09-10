@@ -39,7 +39,7 @@
     <global>
         <models>
             <nookuserver>
-                <class>Crossinghippos_Nookuserver_model</class>
+                <class>Crossinghippos_Nookuserver_Model</class>
             </nookuserver>
         </models>
         <resources>
