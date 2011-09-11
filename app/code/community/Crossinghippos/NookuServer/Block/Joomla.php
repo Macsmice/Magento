@@ -17,4 +17,10 @@ class Crossinghippos_NookuServer_Block_Joomla extends Mage_Core_Block_Template
     {
         parent::_construct();
     }
+
+    public function getView()
+    {
+        $model = Mage::getModel('nookuserver/joomla_factory');
+        return 'hi';
+    }
 }
