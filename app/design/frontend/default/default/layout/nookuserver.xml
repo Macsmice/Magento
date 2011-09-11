@@ -13,14 +13,19 @@
 
     <nookuserver_index_index>
         <reference name="content">
-            <block type="nookuserver/koowa_model" name="koowa" template="nookuserver/koowa/model.phtml">
+            <!--block type="nookuserver/koowa_model" name="koowa_model" template="nookuserver/koowa/model.phtml">
+                <action method="setModel"><string>model</string></action>
                 <action method="setIdentifier"><string>com://admin/articles.model.articles</string></action>
                 <action method="setState"><type>limit</type><value>9</value></action>
-            </block>
-            <!--block type="nookuserver/koowa" name="koowa" template="nookuserver/koowa.phtml">
-                <action method="setIdentifier"><string>com://site/weblinks.view.weblinks.html</string></action>
-                <action method="setState"><type>limit</type><value>5</value></action>
             </block-->
+            <!--block type="nookuserver/koowa_view" name="koowa_view_search" template="nookuserver/koowa/module.phtml">
+                <action method="setModel"><string>view</string></action>
+                <action method="setIdentifier"><string>mod://site/search.html</string></action>
+            </block-->
+            <block type="nookuserver/koowa_view" name="koowa_view_login" template="nookuserver/koowa/view.phtml">
+                <action method="setModel"><string>view</string></action>
+                <action method="setIdentifier"><string>com://site/users.view.login.html</string></action>
+            </block>
         </reference>
     </nookuserver_index_index>
 

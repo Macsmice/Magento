@@ -10,8 +10,25 @@
  */
 class CrossingHippos_NookuServer_Helper_NookuServer extends Mage_Core_Helper_Data
 {
-    public function getKoowaObject()
+    public function initApplication()
     {
-        return 'I\'m a great help';
+        if(!Mage::registry('ns')) {
+
+            define('_JEXEC',1); //Quick Fool Joomla loaded
+
+            define('JPATH_BASE','/Users/babsgosgens/Sites/magento1.6/ns');
+            define('JPATH_LIBRARIES',JPATH_BASE.'/libraries');
+
+            require_once(JPATH_LIBRARIES.'/joomla/environment/request.php');
+            require_once(JPATH_LIBRARIES.'/joomla/version.php');
+
+            require_once(JPATH_BASE.'/includes/defines.php');
+            require_once(JPATH_BASE.'/includes/framework.php');
+
+            $mainframe =& JFactory::getApplication('site');
+            $mainframe->initialise();
+
+            Mage::register('ns', $mainframe);
+        }
     }
 }

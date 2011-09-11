@@ -8,16 +8,11 @@
  * @license		Open Software License
  */
 ?>
+<h1>Koowa View Module</h1>
 <?php
-$_data = $this->getModelData();
+//var_dump($this->getView()->createRoute());
+//var_dump($this->getView()->getMethods());
+//var_dump($this->getView()->getTemplate()->getMethods());
+//var_dump($this->getView()->getTemplate()->getView());
 ?>
-<h1>Koowa Model Module</h1>
-
-<?php foreach($_data AS $article): ?>
-<article>
-    <h2><?php echo $article->title ?></h2>
-    <div>
-        <?php echo $article->introtext ?>
-    </div>
-</article>
-<?php endforeach; ?>
+<?php echo $this->getView()->display() ?>
