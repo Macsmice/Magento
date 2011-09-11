@@ -12,6 +12,7 @@ class Crossinghippos_NookuServer_Block_Koowa extends Mage_Core_Block_Template
 {
 
     protected $_state = array();
+    protected $_model = 'model'; // Set default class type
 
     public function _construct()
     {
@@ -33,33 +34,16 @@ class Crossinghippos_NookuServer_Block_Koowa extends Mage_Core_Block_Template
         return (bool) $this->_getData('state');
     }
 
-    public function setModelData()
+    protected function _setKObject()
     {
-        $model = Mage::getModel('nookuserver/koowa');
+        $model = Mage::getModel('nookuserver/koowa_' . $this->_model);
 
-        $model->initKoowaObject($this->_getData('identifier'));
-        $model->setKoowaState($this->_state);
+        $model->initKObject($this->_getData('identifier'));
+
+        if(!empty($this->_state)) {
+             $model->setKState($this->_state);
+        }
 
         return $model;
-    }
-
-    public function getModelData()
-    {
-        return Mage::getModel('nookuserver/koowa')->getData();
-    }
-
-    public function getRenderedView()
-    {
-        $model = $this->setModelData();
-//        $model->getKoowaObject()->display();
-
-
-
-//        $_helper = $this->getHelper('CrossingHippos_NookuServer_Helper_NookuServer');
-//        var_dump($_helper->getKoowaObject());
-//
-//        $articles = KFactory::get('com://admin/articles.model.articles'); // test some output
-//        var_dump($articles->getList()->getData());
-
     }
 }
