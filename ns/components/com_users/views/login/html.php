@@ -25,12 +25,13 @@ class ComUsersViewLoginHtml extends ComDefaultViewHtml
 
         KFactory::get('joomla:application')->getPathway()->addItem($title);
         KFactory::get('joomla:document')->setTitle($title);
-        
+
         $this->parameters = $this->getParameters();
+        $this->assign('return', JURI::root());
 
         return parent::display();
     }
-    
+
     public function getParameters()
     {
         $menu   = JSite::getMenu();

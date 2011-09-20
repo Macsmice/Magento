@@ -14,16 +14,22 @@ class CrossingHippos_NookuServer_Helper_NookuServer extends Mage_Core_Helper_Dat
     {
         if(!Mage::registry('ns')) {
 
+            error_reporting(E_ALL); //Quick debug problems.
             define('_JEXEC',1); //Quick Fool Joomla loaded
 
             define('JPATH_BASE','/Users/babsgosgens/Sites/magento1.6/ns');
             define('JPATH_LIBRARIES',JPATH_BASE.'/libraries');
 
+//            require_once(JPATH_LIBRARIES.'/loader.php');
             require_once(JPATH_LIBRARIES.'/joomla/environment/request.php');
             require_once(JPATH_LIBRARIES.'/joomla/version.php');
 
             require_once(JPATH_BASE.'/includes/defines.php');
             require_once(JPATH_BASE.'/includes/framework.php');
+
+            // These appearto be necessary to include as well
+            require_once(JPATH_LIBRARIES.'/joomla/application/router.php');
+            require_once(JPATH_LIBRARIES.'/joomla/methods.php');
 
             $mainframe =& JFactory::getApplication('site');
             $mainframe->initialise();

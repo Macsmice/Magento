@@ -29,7 +29,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	    $category = KFactory::get('com://site/weblinks.model.categories')
 	                        ->id($this->getModel()->getState()->category)
 	                        ->getItem();
-	                        
+
 	    $categories = KFactory::get('com://site/weblinks.model.categories')->getList();
 		$params     = KFactory::get('joomla:application')->getParams();
 
@@ -47,16 +47,17 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 		}
 
 		// Set up icon for table display
-		if ( $params->get( 'link_icons' ) != -1 ) 
+		if ( $params->get( 'link_icons' ) != -1 )
 		{
 			$image = array(
 				'src'   => 'media://system/images/'.$params->get('weblink_icons', 'weblink.png'),
 			    'title' => JText::_('Link')
 			);
-			
+
 			$this->assign('image', $image);
 		}
 
+        var_dump($params);die;
 		$this->assign('params'    , $params);
 		$this->assign('category'  , $category);
 		$this->assign('categories', $categories);

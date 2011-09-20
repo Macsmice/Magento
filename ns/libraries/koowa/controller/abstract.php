@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: abstract.php 3653 2011-06-27 19:25:37Z johanjanssens $
+ * @version		$Id: abstract.php 4035 2011-09-19 23:56:30Z johanjanssens $
  * @category	Koowa
  * @package		Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -270,7 +270,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	}
 	
 	/**
-     * Register one or more behaviors to the controller
+     * Add one or more behaviors to the controller
      *
      * @param   array   Array of one or more behaviors to add.
      * @return  KControllerAbstract

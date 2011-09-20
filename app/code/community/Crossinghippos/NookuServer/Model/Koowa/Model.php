@@ -20,6 +20,8 @@ class Crossinghippos_Nookuserver_Model_Koowa_Model extends Crossinghippos_Nookus
     {
         $identifier = $this->_getData('koowaObject')->getIdentifier();
 
+        var_dump($identifier);die;
+
 
         if(KInflector::isPlural($identifier->name)) {
             return $this->_getData('koowaObject')->getList();

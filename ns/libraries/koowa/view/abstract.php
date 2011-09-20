@@ -26,21 +26,21 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 * @var	string|object
 	 */
 	protected $_model;
-	
+
 	/**
 	 * The output of the view
 	 *
 	 * @var string
 	 */
 	public $output = '';
-	
+
 	/**
 	 * The mimetype
-	 * 
+	 *
 	 * @var string
 	 */
 	public $mimetype = '';
-	
+
 	/**
      * Layout name
      *
@@ -57,18 +57,18 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	{
 		//If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+
 		parent::__construct($config);
-		
+
 		//Set the output if defined in the config
 		$this->output = $config->output;
-		
+
 		//Set the mimetype of defined in the config
 		$this->mimetype = $config->mimetype;
 
 		// set the model
 		$this->setModel($config->model);
-		
+
 		// set the layout
         $this->setLayout($config->layout);
 	}
@@ -89,14 +89,14 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     		'mimetype'	=> '',
             'layout'    => 'default',
 	  	));
-	  
+
         parent::_initialize($config);
     }
-    
+
 	/**
 	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
+	 *
+	 * @return	KIdentifier
 	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
@@ -114,7 +114,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		$total = count($this->_identifier->path);
 		return $this->_identifier->path[$total - 1];
 	}
-	
+
 	/**
 	 * Get the format
 	 *
@@ -134,7 +134,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	{
 		return $this->output;
 	}
-	
+
 	/**
 	 * Get the model object attached to the contoller
 	 *
@@ -142,23 +142,23 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function getModel()
 	{
-		if(!$this->_model instanceof KModelAbstract) 
+		if(!$this->_model instanceof KModelAbstract)
 		{
 			//Make sure we have a model identifier
 		    if(!($this->_model instanceof KIdentifier)) {
 		        $this->setModel($this->_model);
 			}
-		  
+
 		    $this->_model = KFactory::get($this->_model);
 		}
 
 		return $this->_model;
 	}
-	
+
 	/**
 	 * Method to set a model object attached to the view
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KViewException	If the identifier is not a table identifier
 	 * @return	KViewAbstract
@@ -167,31 +167,31 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	{
 		if(!($model instanceof KModelAbstract))
 		{
-	        if(is_string($model) && strpos($model, '.') === false ) 
+	        if(is_string($model) && strpos($model, '.') === false )
 		    {
 			    // Model names are always plural
 			    if(KInflector::isSingular($model)) {
 				    $model = KInflector::pluralize($model);
-			    } 
-		        
+			    }
+
 			    $identifier			= clone $this->_identifier;
 			    $identifier->path	= array('model');
 			    $identifier->name	= $model;
 			}
 			else $identifier = KFactory::identify($model);
-		    
+
 			if($identifier->path[0] != 'model') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
 			}
 
 			$model = $identifier;
 		}
-		
+
 		$this->_model = $model;
-		
+
 		return $this;
 	}
-	
+
  	/**
      * Get the layout.
      *
@@ -215,15 +215,15 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     }
 
 	/**
-	 * Create a route based on a full or partial query string 
-	 * 
-	 * index.php, option, view and layout can be ommitted. The following variations 
+	 * Create a route based on a full or partial query string
+	 *
+	 * index.php, option, view and layout can be ommitted. The following variations
 	 * will all result in the same route
 	 *
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
 	 * - index.php?option=com_mycomp&view=myview&foo=bar
-	 * 
+	 *
 	 * If the route starts '&' the information will be appended to the current URL.
 	 *
 	 * In templates, use @route()
@@ -236,21 +236,21 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		$route = trim($route);
 
 		// Special cases
-		if($route == 'index.php' || $route == 'index.php?') 
+		if($route == 'index.php' || $route == 'index.php?')
 		{
 			$result = $route;
-		} 
-		else if (substr($route, 0, 1) == '&') 
+		}
+		else if (substr($route, 0, 1) == '&')
 		{
 			$url   = clone KRequest::url();
 			$vars  = array();
 			parse_str($route, $vars);
-			
+
 			$url->setQuery(array_merge($url->getQuery(true), $vars));
-			
+
 			$result = 'index.php?'.$url->getQuery();
 		}
-		else 
+		else
 		{
 			// Strip 'index.php?'
 			if(substr($route, 0, 10) == 'index.php?') {
@@ -275,7 +275,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 					$result[] = 'layout='.$this->getLayout();
 				}
 			}
-			
+
 			// Add the format information to the URL only if it's not 'html'
 			if(!isset($parts['format']) && $this->_identifier->name != 'html') {
 				$result[] = 'format='.$this->_identifier->name;
@@ -287,13 +287,15 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			}
 
 			$result = 'index.php?'.implode('&', $result);
-			
+
 		}
+
+        var_dump($result);
 
 		return JRoute::_($result);
 	}
-	
-	/**	
+
+	/**
 	 * Returns the views output
  	 *
 	 * @return 	string

@@ -18,11 +18,21 @@
                 <action method="setIdentifier"><string>com://admin/articles.model.articles</string></action>
                 <action method="setState"><type>limit</type><value>9</value></action>
             </block-->
-            <!--block type="nookuserver/koowa_view" name="koowa_view_search" template="nookuserver/koowa/module.phtml">
+            <!--block type="nookuserver/koowa_view" name="koowa_view_search" template="nookuserver/koowa/view.phtml">
                 <action method="setModel"><string>view</string></action>
-                <action method="setIdentifier"><string>mod://site/search.html</string></action>
+                <action method="setIdentifier"><string>com://site/weblinks.view.weblinks.default</string></action>
             </block-->
-            <block type="nookuserver/koowa_view" name="koowa_view_login" template="nookuserver/koowa/view.phtml">
+            <block type="nookuserver/koowa_view" name="koowa_view_banners" template="nookuserver/koowa/view.phtml">
+                <action method="setModel"><string>view</string></action>
+                <action method="setIdentifier"><string>com://site/users.view.login.html</string></action>
+            </block>
+        </reference>
+        <reference name="left">
+            <!--block type="nookuserver/koowa_view" name="koowa_view_login" template="nookuserver/koowa/view.phtml">
+                <action method="setModel"><string>view</string></action>
+                <action method="setIdentifier"><string>com://site/users.view.login.html</string></action>
+            </block-->
+            <block type="nookuserver/koowa_view" name="koowa_view_banners" template="nookuserver/koowa/view.phtml">
                 <action method="setModel"><string>view</string></action>
                 <action method="setIdentifier"><string>com://site/users.view.login.html</string></action>
             </block>
